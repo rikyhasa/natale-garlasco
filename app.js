@@ -173,7 +173,7 @@
   var ioRv = null;
   function scorrimento(radice, extra) {
     if (ioRv) { ioRv.disconnect(); ioRv = null; }
-    var els = $$(radice + " > *" + (extra ? ", " + extra : "")).filter(function (e) { return !e.hidden && !e.classList.contains("topbar") && !e.classList.contains("hero") && !e.classList.contains("blk"); });
+    var els = $$(radice + " > *" + (extra ? ", " + extra : "")).filter(function (e) { return !e.hidden && !e.classList.contains("topbar") && !e.classList.contains("hero") && !e.classList.contains("blk") && !e.classList.contains("foglio"); });
     if (ridotto || !window.IntersectionObserver) { els.forEach(function (e) { e.classList.remove("rv", "in"); }); return; }
     els.forEach(function (e, n) { e.classList.remove("in"); e.classList.add("rv"); e.style.setProperty("--d", (n % 4) * 70 + "ms"); });
     ioRv = new IntersectionObserver(function (en) {
@@ -185,9 +185,11 @@
   function ruotaHero() {
     scrollInvito = false;
     if (!heroEl || !$("#p-invito").classList.contains("on")) return;
-    var y = scrollY, h = heroEl.offsetHeight + 60, p = Math.max(0, Math.min(1, y / h));
-    heroEl.style.transform = p > 0 ? "translate3d(0," + (p * 34).toFixed(1) + "px,0) scale(" + (1 - p * .05).toFixed(3) + ")" : "";
-    heroEl.style.opacity = p > 0 ? (1 - p * .85).toFixed(2) : "";
+    var hh = heroEl.offsetHeight, vh = innerHeight;
+    heroEl.parentNode.style.setProperty("--hero-top", Math.min(0, vh - hh - 8) + "px");
+    var p = Math.max(0, Math.min(1, scrollY / Math.max(240, hh * .8)));
+    heroEl.style.transform = p > 0 ? "scale(" + (1 - p * .07).toFixed(3) + ")" : "";
+    heroEl.style.opacity = p > 0 ? (1 - p * .9).toFixed(2) : "";
   }
   if (!ridotto) window.addEventListener("scroll", function () { if (!scrollInvito) { scrollInvito = true; requestAnimationFrame(ruotaHero); } }, { passive: true });
 
@@ -252,8 +254,8 @@
     if (mappaCarica) return; mappaCarica = true;
     var box = $("#mappaBox");
     function parti() {
-      caricaScript("terreno.js?v=5", function () {
-        caricaScript("assets/mappa.js?v=5", function () {
+      caricaScript("terreno.js?v=6", function () {
+        caricaScript("assets/mappa.js?v=6", function () {
           var gl = $("#bGuida"), mu = $("#bMuovi");
           gl.textContent = TX.invito.mappaGuida; mu.textContent = TX.invito.mappaMuovi; mu.setAttribute("aria-pressed", "false");
           mappa = MappaNatale.init({

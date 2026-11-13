@@ -89,7 +89,7 @@ h2{font-size:clamp(34px,10vw,46px);margin-top:6px}
 
 /* ---------- 3 · invito ---------- */
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:6px 0 12px;border-bottom:2px dashed var(--bordo);font-size:15px}
-.hero{position:relative;padding:34px 0 30px}
+.hero{position:sticky;top:var(--hero-top,0px);padding:34px 0 30px}
 .hero .gigante{margin-top:18px}
 .pettorale{position:absolute;right:0;top:22px;width:86px;height:86px;border-radius:50%;background:#fff;color:#111;border:4px solid #111;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(9deg);box-shadow:3px 3px 0 var(--vinaccia)}
 .pettorale span{font:850 40px/1 var(--fd);font-variation-settings:"SOFT" 0,"WONK" 0}.pettorale small{font:500 10px/1 var(--fm);letter-spacing:.14em;text-transform:uppercase;margin-top:2px}
@@ -98,7 +98,10 @@ h2{font-size:clamp(34px,10vw,46px);margin-top:6px}
 .fatto{background:var(--card);border:2px solid var(--bordo);border-radius:12px;padding:10px 12px;min-width:0}
 .fatto dt{font:500 11px/1 var(--fm);letter-spacing:.12em;text-transform:uppercase;color:var(--tenue)}
 .fatto dd{margin-top:5px;font:700 17px/1.2 var(--fd);font-variation-settings:"SOFT" 100,"WONK" 1;overflow-wrap:anywhere}
-.blk{position:relative;margin-top:34px;padding:46px 0 30px}
+/* il foglio scivola sopra l'intestazione: sotto compare mentre sopra sfuma */
+.foglio{position:relative;z-index:2;margin:34px calc(-1 * max(18px,env(safe-area-inset-left))) -70px;padding:0 max(18px,env(safe-area-inset-left)) 70px;background:var(--bg) var(--grana);box-shadow:0 -18px 30px -14px rgba(0,0,0,.18)}
+.blk{position:relative;margin-top:0;padding:46px 0 30px}
+.blk+.blk{margin-top:34px}
 /* strappo del biglietto: linea tratteggiata con le due tacche */
 .blk::before{content:"";position:absolute;left:-18px;right:-18px;top:-13px;height:26px;pointer-events:none;
   background:
@@ -159,7 +162,7 @@ h2{font-size:clamp(34px,10vw,46px);margin-top:6px}
 /* ---------- scorrimento: entrano man mano (usa translate/scale, così non toccano le rotazioni) ---------- */
 .rv{opacity:0;translate:0 38px;scale:.965;transition:opacity .75s cubic-bezier(.2,.7,.2,1) var(--d,0s),translate .85s cubic-bezier(.2,.7,.2,1) var(--d,0s),scale .85s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
 .rv.in{opacity:1;translate:0 0;scale:1}
-.hero{transform-origin:50% 0;will-change:transform,opacity}
+.hero{transform-origin:50% 0;will-change:transform,opacity;z-index:1}
 .fine-rally{margin-top:26px}
 .fine-rally h3{font:850 22px/1.15 var(--fd);font-variation-settings:"SOFT" 100,"WONK" 1}
 .fine-rally p{margin-top:8px;font-size:16px}
