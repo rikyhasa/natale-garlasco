@@ -1,0 +1,2 @@
+/* Sorteggio del Babbo Natale segreto. File generato: non modificare a mano. */
+window.SORTEGGIO={"s":"d358544bc0a6","m":{"1rhfwpn":"yQyH9C8=","1li6186":"xXWkw1t82Qo=","1gd1kyn":"u2C4OuNPMvU=","k74uem":"L9g8Et8=","exmqmy":"OIZWvPjcLjI=","1e6neky":"0e2+4w==","64dunc":"YUoek60z","gil4tb":"VSEmFA==","c8odf6":"g046shM=","15fn3sd":"yy4qYrQ=","1cv9r1q":"/mwnRShJlQ==","1qdiqau":"fZfPjbA=","vhceik":"z9kW6A==","q418ls":"972LESuq","r8tlry":"r8J3oP1gnrw=","621p04":"apeGh9k=","18xlude":"aWtmCsjl6Dnm","aivarc":"NmD5","bt19sg":"nk4GOUZS","8kw2bc":"LF092Vge"}};

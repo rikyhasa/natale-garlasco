@@ -4,514 +4,211 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Natale a Garlasco · 19 dicembre 2026</title>
-<meta name="description" content="Invito alla festa di Natale a Garlasco, sabato 19 dicembre 2026. Rally in macchina nell'Oltrepo al mattino, cena la sera.">
+<meta name="description" content="Invito alla festa di Natale a Garlasco, sabato 19 dicembre 2026. Rally in macchina nell'Oltrepò al mattino, cena la sera.">
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#12372A">
 
 <!-- anteprima quando incolli il link in WhatsApp -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Natale a Garlasco">
-<meta property="og:description" content="Sabato 19 dicembre 2026. Apri per vedere il tuo invito.">
+<meta property="og:description" content="Sabato 19 dicembre 2026. Prima di entrare devi dirmi chi sei.">
 <meta property="og:image" content="https://rikyhasa.github.io/natale-garlasco/anteprima.png">
 <meta property="og:url" content="https://rikyhasa.github.io/natale-garlasco/">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Karla:wght@400;500;700&display=swap">
-<style>
-/* reset minimo */
-html{color-scheme:light}
-body{margin:0}
-img{max-width:100%}
-[hidden]{display:none!important}
-</style>
-<style>
-/* Layout: one narrow column, invitation-card rhythm. A name gate opens the page;
-   the rally block only exists for the guests invited to it. */
-:root{
-  --bg:#F7F2E8;
-  --surface:#FFFDF8;
-  --surface-2:#EFE8D9;
-  --ink:#1E2B23;
-  --muted:#6E7D71;
-  --green:#1D4B37;
-  --green-soft:#D9E3DA;
-  --gold:#9A7D37;
-  --gold-soft:#EADFC3;
-  --line:#DED4C0;
-  --shadow:0 1px 2px rgba(30,43,35,.06), 0 8px 24px rgba(30,43,35,.06);
-  --plain:#E8E4D6;
-  --hill:#D8DFCD;
-  --mtn:#C3CEBA;
-  --water:#B9C9CC;
-  --font-d:"Fraunces",Georgia,"Times New Roman",serif;
-  --font-b:"Karla",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#121B16; --surface:#1A2520; --surface-2:#223029; --ink:#E9E2D2; --muted:#9BAC9F;
-  --green:#8CC2A4; --green-soft:#24352C; --gold:#D3B36B; --gold-soft:#36301F; --line:#2E3E35;
-  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3);
-  --plain:#1F2A24; --hill:#26342B; --mtn:#2F4036; --water:#2B3C40;
-  color-scheme:dark;
-}}
-:root[data-theme="dark"]{
-  --bg:#121B16; --surface:#1A2520; --surface-2:#223029; --ink:#E9E2D2; --muted:#9BAC9F;
-  --green:#8CC2A4; --green-soft:#24352C; --gold:#D3B36B; --gold-soft:#36301F; --line:#2E3E35;
-  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3);
-  --plain:#1F2A24; --hill:#26342B; --mtn:#2F4036; --water:#2B3C40;
-  color-scheme:dark;
-}
-*{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--font-b);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
-.wrap{max-width:660px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 56px}
-h1,h2,h3{font-family:var(--font-d);font-weight:600;text-wrap:balance;margin:0;line-height:1.15}
-p{margin:0}
-.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700}
-.muted{color:var(--muted)}
+<link rel="icon" href="data:,">
+<link rel="preload" href="assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="stile.css?v=3">
+</head>
+<body class="neve-on">
+<canvas id="cfx" aria-hidden="true"></canvas>
+<div id="neve" aria-hidden="true"></div>
 
-/* ---------- gate ---------- */
-#gate{padding-block:clamp(40px,12vw,84px) 48px;text-align:center}
-.crest{width:38px;height:38px;margin:0 auto 22px;color:var(--green)}
-#gate h1{font-size:clamp(38px,11vw,60px);letter-spacing:-.015em}
-#gate .date{font-family:var(--font-d);font-size:clamp(17px,4.5vw,21px);color:var(--gold);margin-top:10px;font-style:italic}
-#gate .ask{margin-top:38px;font-size:15px;color:var(--muted)}
-.names{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px}
-.name-btn{font:inherit;font-size:15px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:9px 16px;cursor:pointer;transition:background .14s,border-color .14s,transform .14s}
-.name-btn:hover{background:var(--green-soft);border-color:var(--green);transform:translateY(-1px)}
-.name-btn:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+<main id="app">
 
-/* ---------- invite ---------- */
-#invite{padding-block:28px 0}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px;border-bottom:1px solid var(--line);flex-wrap:wrap}
-.topbar .who{font-family:var(--font-d);font-size:17px}
-.linkish{font:inherit;font-size:13px;background:none;border:none;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:4px}
-.linkish:hover{color:var(--green)}
-
-.hero{padding-block:40px 36px;border-bottom:1px solid var(--line)}
-.hero h1{font-size:clamp(36px,10vw,56px);letter-spacing:-.015em}
-.hero .sub{font-family:var(--font-d);font-style:italic;font-size:clamp(18px,4.6vw,22px);color:var(--gold);margin-top:12px}
-.hero .lede{margin-top:20px;max-width:46ch;color:var(--muted)}
-.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
-.fact{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:0}
-.fact dt{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
-.fact dd{margin:3px 0 0;font-family:var(--font-d);font-size:17px}
-
-section.blk{padding-block:40px;border-bottom:1px solid var(--line)}
-section.blk h2{font-size:clamp(26px,6.5vw,34px);margin-top:8px;letter-spacing:-.01em}
-section.blk > p.intro{margin-top:14px;max-width:52ch;color:var(--muted)}
-
-/* ---------- map ---------- */
-.mapcard{margin-top:26px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--shadow)}
-.mapcard figure{margin:0}
-.mapcard svg{display:block;width:100%;height:auto;max-width:100%}
-.m-plain{fill:var(--plain)} .m-hill{fill:var(--hill)} .m-mtn{fill:var(--mtn)}
-.m-water{fill:none;stroke:var(--water);stroke-width:3;stroke-linecap:round}
-.m-out{fill:none;stroke:var(--muted);stroke-width:3;stroke-dasharray:2 8;stroke-linecap:round;opacity:.75}
-.m-hot{fill:none;stroke:var(--gold);stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
-.m-dot{fill:var(--surface);stroke:var(--ink);stroke-width:2.5}
-.m-dot-hot{fill:var(--gold);stroke:var(--surface);stroke-width:2.5}
-.m-lbl{fill:var(--ink);font-family:var(--font-b);font-size:17px;font-weight:700}
-.m-sub{fill:var(--muted);font-family:var(--font-b);font-size:15px}
-.m-key{fill:var(--muted);font-family:var(--font-b);font-size:15px}
-.m-hit{fill:transparent;cursor:pointer}
-.m-hit:focus-visible{outline:2px solid var(--green)}
-.m-g.on .m-dot,.m-g.on .m-dot-hot{stroke:var(--green);fill:var(--green)}
-.m-g.on .m-lbl{fill:var(--green)}
-figcaption{margin-top:10px;font-size:13px;color:var(--muted)}
-
-.stop-detail{margin-top:14px;background:var(--surface-2);border-radius:10px;padding:14px 16px;min-height:92px}
-.stop-detail .t{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
-.stop-detail h3{font-size:20px}
-.stop-detail .hr{font-variant-numeric:tabular-nums;color:var(--gold);font-weight:700;font-size:14px;font-family:var(--font-b)}
-.stop-detail p{margin-top:7px;font-size:15px;color:var(--muted)}
-
-ol.stops{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-direction:column;gap:2px}
-ol.stops li{display:grid;grid-template-columns:58px 1fr;gap:12px;align-items:baseline;padding:9px 0;border-top:1px solid var(--line)}
-ol.stops li:first-child{border-top:none}
-ol.stops .hr{font-variant-numeric:tabular-nums;color:var(--gold);font-weight:700;font-size:14px}
-ol.stops .nm{font-family:var(--font-d);font-size:18px}
-ol.stops .ds{display:block;font-family:var(--font-b);font-size:14px;color:var(--muted);margin-top:1px}
-
-.btn{font:inherit;display:inline-flex;align-items:center;gap:8px;background:var(--green);color:var(--bg);border:1px solid var(--green);border-radius:10px;padding:12px 18px;font-weight:700;font-size:15px;cursor:pointer;text-decoration:none;transition:opacity .14s}
-.btn:hover{opacity:.88}
-.btn.ghost{background:transparent;color:var(--green)}
-.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.btnrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
-
-/* ---------- rsvp ---------- */
-.choice{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.choice button{flex:1 1 180px;min-width:0;font:inherit;font-size:16px;font-weight:700;padding:16px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;transition:all .14s}
-.choice button:hover{border-color:var(--green)}
-.choice button[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:var(--bg)}
-.choice button[aria-pressed="true"].no{background:var(--surface-2);color:var(--muted);border-color:var(--muted)}
-.choice button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.sub-q{margin-top:22px}
-.sub-q .lab{font-size:14px;font-weight:700}
-label.fld{display:block;margin-top:22px}
-label.fld .lab{font-size:14px;font-weight:700;display:block}
-label.fld .hint{font-size:13px;color:var(--muted);display:block;margin-top:2px}
-textarea,input[type=text]{font:inherit;font-size:15px;width:100%;margin-top:8px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:11px 13px;resize:vertical}
-textarea:focus,input[type=text]:focus{outline:2px solid var(--green);outline-offset:-1px;border-color:var(--green)}
-.sendbox{margin-top:26px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow)}
-.preview{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;line-height:1.55;white-space:pre-wrap;word-break:break-word;background:var(--surface-2);border-radius:8px;padding:12px;margin-top:12px;color:var(--ink)}
-.toast{font-size:13px;color:var(--green);font-weight:700;margin-top:10px;min-height:18px}
-
-.santa-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:22px}
-.santa-grid div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;min-width:0}
-.santa-grid .n{font-family:var(--font-d);font-size:18px;color:var(--green)}
-.santa-grid p{font-size:14px;color:var(--muted);margin-top:5px}
-
-.tbc{display:inline-block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--gold);background:var(--gold-soft);border-radius:999px;padding:2px 8px;vertical-align:middle}
-footer{padding-block:34px;text-align:center;color:var(--muted);font-size:13px}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-</style>
-
-<div class="wrap">
-
-<!-- ================= GATE ================= -->
-<div id="gate">
-  <svg class="crest" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <path d="M12 2 L7 9 h3 L5.5 15.5 h4 L4 22 h16 L14.5 15.5 h4 L14 9 h3 Z"/>
-  </svg>
-  <h1>Natale a Garlasco</h1>
-  <p class="date">sabato 19 dicembre 2026</p>
-  <p class="ask">Prima di aprire l'invito: chi sei?</p>
-  <div class="names" id="names"></div>
-  <p class="muted" style="margin-top:28px;font-size:13px">Non ti trovi nella lista? Scrivi a Riccardo.</p>
-</div>
-
-<!-- ================= INVITE ================= -->
-<div id="invite" hidden>
-
-  <div class="topbar">
-    <span class="who">Invito per <strong id="whoName"></strong></span>
-    <span class="linkish" style="text-decoration:none;cursor:default">la versione finale chiede a ognuno il suo nome</span>
-  </div>
-
-  <header class="hero">
-    <p class="eyebrow" id="tier"></p>
-    <h1>Natale a Garlasco</h1>
-    <p class="sub">sabato 19 dicembre 2026</p>
-    <p class="lede" id="lede"></p>
-    <dl class="facts">
-      <div class="fact"><dt>Dove</dt><dd>Garlasco (PV)</dd></div>
-      <div class="fact"><dt>Cena</dt><dd>dalle 20:00</dd></div>
-      <div class="fact rallyOnly"><dt>Rally</dt><dd>ritrovo 08:30</dd></div>
-      <div class="fact"><dt>Siamo</dt><dd>una ventina</dd></div>
-    </dl>
-  </header>
-
-  <!-- ---------- RALLY ---------- -->
-  <section class="blk rallyOnly" id="rally">
-    <p class="eyebrow">la mattina</p>
-    <h2>Il rally</h2>
-    <p class="intro">Si parte da Buccinasco alle 8:30 e si scende nell'Oltrepò per le strade buone: il crinale dei vigneti, i borghi sul cucuzzolo, il Passo del Penice a 1.149 metri. Pranzo a Varzi, poi si cala su Garlasco. Circa 250 km, niente autostrada se non per arrivare a Casteggio.</p>
-
-    <div class="mapcard">
-      <figure>
-        <svg viewBox="0 0 510 748" role="img" aria-label="Mappa del percorso: da Buccinasco si scende a Casteggio, si percorre il crinale dell'Oltrepò fino a Romagnese, si sale al Passo del Penice, si scende a Varzi e si rientra a Garlasco.">
-          <!-- terrain -->
-          <path class="m-plain" d="M0 0 H510 V500 Q400 486 300 494 Q190 503 100 492 Q40 485 0 492 Z"/>
-          <path class="m-hill" d="M0 492 Q40 485 100 492 Q190 503 300 494 Q400 486 510 500 V748 H0 Z"/>
-          <path class="m-mtn" d="M196 640 Q250 600 310 608 Q372 616 420 596 Q470 578 510 598 V748 H214 Q180 700 196 640 Z"/>
-          <!-- Po -->
-          <path class="m-water" d="M0 360 Q90 378 180 366 Q270 354 350 374 Q430 392 510 380"/>
-          <text class="m-key" x="8" y="352" style="font-style:italic">Po</text>
-          <!-- transfer legs -->
-          <path class="m-out" d="M213.5 50 L240.5 296.9 L220.3 473.7"/>
-          <path class="m-out" d="M271.4 675.2 L132 499 L70 286.1"/>
-          <!-- the good part -->
-          <path class="m-hot" d="M220.3 473.7 L217.6 536.4 L199.5 588.7 L261.1 572.8 L268.2 562.5 L334.3 597.1 L400 639 L369 697.5 L271.4 675.2"/>
-          <!-- stops -->
-          <g class="m-g" data-s="0"><circle class="m-dot" cx="213.5" cy="50" r="6.5"/><text class="m-lbl" x="227" y="48">Buccinasco</text><text class="m-sub" x="227" y="68">08:30 · si parte</text><rect class="m-hit" x="183" y="22" width="180" height="56"/></g>
-          <g class="m-g" data-s="1"><circle class="m-dot-hot" cx="220.3" cy="473.7" r="6.5"/><text class="m-lbl" x="234" y="472">Casteggio</text><text class="m-sub" x="234" y="492">09:45</text><rect class="m-hit" x="190" y="446" width="160" height="54"/></g>
-          <g class="m-g" data-s="2"><circle class="m-dot-hot" cx="199.5" cy="588.7" r="6.5"/><text class="m-lbl" x="186" y="586" text-anchor="end">Rocca Susella</text><text class="m-sub" x="186" y="606" text-anchor="end">10:30</text><rect class="m-hit" x="40" y="560" width="152" height="54"/></g>
-          <g class="m-g" data-s="3"><circle class="m-dot-hot" cx="261.1" cy="572.8" r="6.5"/><text class="m-lbl" x="252" y="546" text-anchor="end">Fortunago</text><text class="m-sub" x="252" y="564" text-anchor="end">11:15 · caffè</text><rect class="m-hit" x="150" y="524" width="112" height="54"/></g>
-          <g class="m-g" data-s="4"><circle class="m-dot-hot" cx="268.2" cy="562.5" r="6.5"/><text class="m-lbl" x="282" y="534">Borgoratto</text><text class="m-sub" x="282" y="554">11:40</text><rect class="m-hit" x="270" y="510" width="150" height="54"/></g>
-          <g class="m-g" data-s="5"><circle class="m-dot-hot" cx="400" cy="639" r="6.5"/><text class="m-lbl" x="412" y="637">Romagnese</text><text class="m-sub" x="412" y="657">12:15</text><rect class="m-hit" x="384" y="612" width="126" height="54"/></g>
-          <g class="m-g" data-s="6"><circle class="m-dot-hot" cx="369" cy="697.5" r="7.5"/><text class="m-lbl" x="383" y="700">Penice</text><text class="m-sub" x="383" y="720">12:45 · 1.149 m</text><rect class="m-hit" x="356" y="674" width="154" height="54"/></g>
-          <g class="m-g" data-s="7"><circle class="m-dot-hot" cx="271.4" cy="675.2" r="6.5"/><text class="m-lbl" x="258" y="678" text-anchor="end">Varzi</text><text class="m-sub" x="258" y="698" text-anchor="end">13:15 · pranzo</text><rect class="m-hit" x="110" y="652" width="152" height="54"/></g>
-          <g class="m-g" data-s="8"><circle class="m-dot" cx="70" cy="286.1" r="6.5"/><text class="m-lbl" x="84" y="278">Garlasco</text><text class="m-sub" x="84" y="298">15:50 · arrivo</text><rect class="m-hit" x="56" y="254" width="150" height="54"/></g>
-          <!-- key -->
-          <line x1="300" y1="106" x2="336" y2="106" class="m-hot"/>
-          <text class="m-key" x="344" y="111">le strade belle</text>
-          <line x1="300" y1="132" x2="336" y2="132" class="m-out"/>
-          <text class="m-key" x="344" y="137">trasferimento</text>
-        </svg>
-        <figcaption>Tocca una tappa per i dettagli. Il tratto in oro è quello per cui ci si alza presto.</figcaption>
-      </figure>
-      <div class="stop-detail" id="stopDetail" aria-live="polite"></div>
-    </div>
-
-    <ol class="stops" id="stopList"></ol>
-
-    <div class="btnrow">
-      <a class="btn" id="gmaps" href="https://www.google.com/maps/dir/Buccinasco/Casteggio/Rocca+Susella/Fortunago/Borgoratto+Mormorolo/Romagnese/Passo+del+Penice/Varzi/Garlasco/" target="_blank" rel="noopener">Aprilo in Google Maps</a>
-    </div>
-    <p class="muted" style="margin-top:14px;font-size:14px">Si va in colonna ma senza fare i fenomeni: chi resta indietro ritrova tutti alla tappa dopo. Gomme invernali o catene a bordo — a dicembre il Penice può avere neve, e se il fondo è bagnato cambiamo il versante di salita.</p>
-  </section>
-
-  <!-- ---------- CENA ---------- -->
-  <section class="blk">
-    <p class="eyebrow">la sera</p>
-    <h2>La cena</h2>
-    <p class="intro">A casa tua, dalle 20:00. Cucina grande, forni a volontà: si cucina noi. Il menu lo stiamo chiudendo — si va su un primo della tradizione, risotto oppure polenta, con spezzatino o salsiccia. I dolci li portiamo a turno.</p>
-    <ol class="stops" style="margin-top:22px">
-      <li><span class="hr">20:00</span><span><span class="nm">Si arriva</span><span class="ds">Bollicine e qualcosa da sgranocchiare mentre finisce di cuocere</span></span></li>
-      <li><span class="hr">21:00</span><span><span class="nm">A tavola</span><span class="ds">Primo caldo, secondo, contorni</span></span></li>
-      <li><span class="hr">23:00</span><span><span class="nm">Dolci e Secret Santa</span><span class="ds">Il momento per cui vale la pena restare svegli</span></span></li>
-      <li><span class="hr">dopo</span><span><span class="nm">Si vedrà</span><span class="ds">Carte, musica, chi vuole dormire lì lo dice prima</span></span></li>
-    </ol>
-    <p class="muted" style="margin-top:20px;font-size:14px">Quota per la spesa: <span class="tbc">da confermare</span> — vi diciamo la cifra esatta appena chiudiamo il menu.</p>
-  </section>
-
-  <!-- ---------- SECRET SANTA ---------- -->
-  <section class="blk">
-    <p class="eyebrow">obbligatorio</p>
-    <h2>Babbo Natale segreto</h2>
-    <p class="intro">Si estrae: ognuno pesca un nome e porta un regalo per quella persona. Tetto di spesa <span class="tbc">da confermare</span>. I pacchetti si aprono dopo i dolci, uno alla volta, e chi indovina chi gliel'ha preso non vince niente.</p>
-    <div class="santa-grid">
-      <div><span class="n">1. Rispondi</span><p>Qui sotto, con un'idea di cosa ti farebbe piacere. Serve a chi ti pesca.</p></div>
-      <div><span class="n">2. Si estrae</span><p>Facciamo il sorteggio una volta che ci siete tutti, e ti arriva il nome in privato.</p></div>
-      <div><span class="n">3. Porti il pacco</span><p>Incartato e senza nome sopra. Il mittente si scopre alla fine.</p></div>
+  <!-- 1 · TU CHI SEI -->
+  <section class="pg" id="p-chi" data-pg="chi" aria-labelledby="chiT">
+    <div class="centro">
+      <p class="adesivo" data-t="chi.sopra"></p>
+      <h1 class="gigante" id="chiT" data-t="chi.titolo"></h1>
+      <p class="sotto" data-t="chi.sotto"></p>
+      <p class="et" data-t="chi.scegli"></p>
+      <div class="nomi" id="nomi"></div>
+      <button type="button" class="link" id="fuoriLista" data-t="chi.fuoriLista"></button>
+      <p class="battuta" id="fuoriRisp" hidden data-t="chi.fuoriListaRisposta"></p>
+      <p class="battuta" id="ritorno" hidden aria-live="polite"></p>
     </div>
   </section>
 
-  <!-- ---------- RSVP ---------- -->
-  <section class="blk" id="rsvp">
-    <p class="eyebrow">la parte che serve</p>
-    <h2>Ci sei?</h2>
-    <p class="intro">Rispondi qui, poi premi il bottone: ti prepara il messaggio già scritto da mandare a Riccardo.</p>
-
-    <div class="choice">
-      <button type="button" id="yes" aria-pressed="false">Ci sono</button>
-      <button type="button" id="no" class="no" aria-pressed="false">Non ce la faccio</button>
-    </div>
-
-    <div class="sub-q rallyOnly" id="rallyQ" hidden>
-      <span class="lab">E al rally della mattina?</span>
-      <div class="choice" style="margin-top:10px">
-        <button type="button" id="rYes" aria-pressed="false">Anche al rally</button>
-        <button type="button" id="rNo" class="no" aria-pressed="false">Solo alla cena</button>
+  <!-- 2 · SICURO SICURO -->
+  <section class="pg" id="p-sicuro" data-pg="sicuro" aria-labelledby="sTit">
+    <div class="centro" id="sicuroBox">
+      <h1 class="grande" id="sTit"></h1>
+      <p class="sotto" data-t="sicuro.sotto"></p>
+      <div class="arena" id="arena">
+        <div class="slot" id="slotSi"><button type="button" class="btn verde" id="si" data-t="sicuro.si"></button></div>
+        <button type="button" class="btn chiaro" id="no" data-t="sicuro.no"></button>
       </div>
+      <p class="presa" id="presa" aria-live="polite"></p>
     </div>
-
-    <label class="fld" id="santaFld" hidden>
-      <span class="lab">Un'idea regalo per chi ti pesca</span>
-      <span class="hint">Due righe bastano. Vale anche «qualsiasi cosa tranne un'altra candela».</span>
-      <textarea id="santa" rows="3" placeholder="Mi farebbe piacere…"></textarea>
-    </label>
-
-    <label class="fld" id="noteFld" hidden>
-      <span class="lab">Altro da dire</span>
-      <span class="hint">Arrivi tardi, dormi lì, porti qualcuno, non mangi qualcosa.</span>
-      <textarea id="note" rows="2" placeholder="Facoltativo"></textarea>
-    </label>
-
-    <div class="sendbox" id="sendbox" hidden>
-      <strong style="font-size:14px">Il tuo messaggio</strong>
-      <div class="preview" id="preview"></div>
-      <div class="btnrow" style="margin-top:14px">
-        <button class="btn" type="button" id="copy">Copia il messaggio</button>
+    <div class="centro rivela" id="rivela" hidden>
+      <p class="dopo" id="rvDopo" data-t="sicuro.dopo"></p>
+      <div class="timbro" id="rvTit">
+        <h1 id="rvH"></h1>
+        <p id="rvD"></p>
       </div>
-      <p class="toast" id="toast"></p>
-      <p class="muted" style="font-size:13px;margin-top:8px">Poi incollalo nella chat con Riccardo. Non si manda da solo.</p>
+      <button type="button" class="btn oro" id="apri" data-t="sicuro.apri"></button>
     </div>
   </section>
 
-  <footer>Garlasco, 19 dicembre 2026 · ci vediamo lì</footer>
-</div>
-</div>
+  <!-- 3 · L'INVITO -->
+  <section class="pg" id="p-invito" data-pg="invito" aria-label="Invito">
+    <div class="colonna">
+      <div class="topbar">
+        <span><span data-t="invito.per"></span> <strong id="whoName"></strong></span>
+        <button type="button" class="link" id="nonSei" data-t="invito.nonSei"></button>
+      </div>
 
-<script>
-(function(){
-  "use strict";
+      <header class="hero">
+        <div class="pettorale" aria-hidden="true"><span>19</span><small>dic</small></div>
+        <p class="adesivo" id="tier"></p>
+        <h1 class="gigante" id="heroT"></h1>
+        <p class="data" id="heroD"></p>
+        <p class="sotto" id="lede"></p>
+        <dl class="fatti" id="fatti"></dl>
+      </header>
 
-  /* ---- chi è invitato a cosa ---- */
-  var GUESTS = [
-    {n:"Ludovico", rally:true}
-  ];
+      <section class="blk" id="rally" hidden>
+        <p class="et" data-t="invito.rallyEt"></p>
+        <h2 data-t="invito.rallyTitolo"></h2>
+        <p class="intro" id="rallyIntro"></p>
 
-  var STOPS = [
-    {h:"08:30", n:"Buccinasco",  d:"Ritrovo, caffè al volo e si parte. Chi arriva dopo le 8:45 insegue."},
-    {h:"09:45", n:"Casteggio",   d:"Fine della pianura. Da qui in poi si gira a destra e si comincia a salire."},
-    {h:"10:30", n:"Rocca Susella", d:"La prima salita vera: tornanti stretti tra i vigneti, con il castello che compare e sparisce."},
-    {h:"11:15", n:"Fortunago",   d:"Borgo in pietra sul cucuzzolo, uno dei più belli d'Italia per chi tiene a queste classifiche. Sosta caffè e foto alle macchine."},
-    {h:"11:40", n:"Borgoratto Mormorolo", d:"Strada di crinale: campi da una parte, valle dall'altra, e quasi nessuno davanti."},
-    {h:"12:15", n:"Romagnese",   d:"Si entra in Val Tidone. Da qui si attacca il Penice dal lato tortuoso, quello stretto nel bosco."},
-    {h:"12:45", n:"Passo del Penice", d:"1.149 metri, il punto più alto della giornata. Si scende dall'altro versante, così non si rifà la stessa strada."},
-    {h:"13:15", n:"Varzi",       d:"Pranzo. Salame di Varzi, che è il motivo per cui il paese è famoso, e un'ora e mezza di pace."},
-    {h:"15:50", n:"Garlasco",    d:"Arrivo. Il tempo di scaricare, fare una doccia e cambiarsi prima della cena."}
-  ];
+        <div class="mappa-box" id="mappaBox">
+          <div class="mappa-scena" id="mScena">
+            <div class="pins" id="pins"></div>
+            <div class="mappa-top">
+              <span class="orologio" id="orologio">08:30</span>
+              <span class="esagero" id="esagero"></span>
+            </div>
+            <p class="mappa-hint" id="mHint" data-t="invito.mappaHint"></p>
+            <p class="mappa-nogl" id="noGl" hidden data-t="invito.noGl"></p>
+          </div>
+          <div class="mappa-bar" id="mBar">
+            <button type="button" class="btn picc verde" id="bGuida"></button>
+            <button type="button" class="btn picc chiaro" id="bMuovi"></button>
+            <button type="button" class="btn picc chiaro" id="bAlto" data-t="invito.mappaAlto"></button>
+          </div>
+          <canvas class="profilo" id="profilo" aria-label="Profilo altimetrico del percorso"></canvas>
+          <p class="didascalia" data-t="invito.profilo"></p>
+        </div>
 
-  var $ = function(id){ return document.getElementById(id); };
-  var LS = "natale-garlasco-2026";
-  var me = null;
-  var state = {going:null, rally:null, santa:"", note:""};
+        <div class="dett carta" id="dett" aria-live="polite"></div>
 
-  function store(){
-    try{ localStorage.setItem(LS, JSON.stringify({name: me && me.n, state: state})); }catch(e){}
-  }
-  function restore(){
-    try{
-      var raw = localStorage.getItem(LS);
-      if(!raw) return null;
-      return JSON.parse(raw);
-    }catch(e){ return null; }
-  }
+        <h3 class="et2" data-t="invito.tappeTitolo"></h3>
+        <ol class="tappe" id="lista"></ol>
 
-  /* ---- gate ---- */
-  var wrap = $("names");
-  GUESTS.forEach(function(g){
-    var b = document.createElement("button");
-    b.type = "button"; b.className = "name-btn"; b.textContent = g.n;
-    b.addEventListener("click", function(){ open(g); });
-    wrap.appendChild(b);
-  });
+        <div class="btnrow"><a class="btn chiaro" id="gmaps" target="_blank" rel="noopener" data-t="invito.maps"></a></div>
+        <p class="nota-regole" data-t="invito.regole"></p>
+      </section>
 
-  function open(g){
-    me = g;
-    $("gate").hidden = true;
-    $("invite").hidden = false;
-    $("whoName").textContent = g.n;
-    $("tier").textContent = g.rally ? "giornata intera" : "cena";
-    $("lede").textContent = g.rally
-      ? "Si comincia la mattina con le macchine e si finisce a tavola. Tu sei dei nostri per tutte e due le parti."
-      : "Una cena di Natale come si deve, a casa di Ludo. Si mangia bene, si beve meglio e si esce con un regalo.";
-    var show = !!g.rally;
-    Array.prototype.forEach.call(document.querySelectorAll(".rallyOnly"), function(el){ el.hidden = !show; });
-    store();
-    window.scrollTo(0,0);
-  }
+      <section class="blk" id="cena">
+        <p class="et" data-t="invito.cenaEt"></p>
+        <h2 data-t="invito.cenaTitolo"></h2>
+        <p class="intro" id="cenaIntro"></p>
+        <ol class="scaletta" id="scaletta"></ol>
+      </section>
 
-  /* ---- mappa ---- */
-  var detail = $("stopDetail");
-  function showStop(i){
-    var s = STOPS[i];
-    detail.innerHTML = "";
-    var t = document.createElement("div"); t.className = "t";
-    var h3 = document.createElement("h3"); h3.textContent = s.n;
-    var hr = document.createElement("span"); hr.className = "hr"; hr.textContent = s.h;
-    t.appendChild(h3); t.appendChild(hr);
-    var p = document.createElement("p"); p.textContent = s.d;
-    detail.appendChild(t); detail.appendChild(p);
-    Array.prototype.forEach.call(document.querySelectorAll(".m-g"), function(g){
-      g.classList.toggle("on", g.getAttribute("data-s") === String(i));
-    });
-  }
-  Array.prototype.forEach.call(document.querySelectorAll(".m-g"), function(g){
-    var i = parseInt(g.getAttribute("data-s"), 10);
-    var hit = g.querySelector(".m-hit");
-    hit.setAttribute("tabindex","0");
-    hit.setAttribute("role","button");
-    hit.setAttribute("aria-label", STOPS[i].n);
-    hit.addEventListener("click", function(){ showStop(i); });
-    hit.addEventListener("keydown", function(e){
-      if(e.key === "Enter" || e.key === " "){ e.preventDefault(); showStop(i); }
-    });
-  });
-  showStop(0);
+      <div class="fondo"><button type="button" class="btn grande-btn" id="vaiRisposta" data-t="invito.avanti"></button></div>
+    </div>
+  </section>
 
-  /* ---- elenco tappe ---- */
-  var list = $("stopList");
-  STOPS.forEach(function(s){
-    var li = document.createElement("li");
-    var a = document.createElement("span"); a.className = "hr"; a.textContent = s.h;
-    var b = document.createElement("span");
-    var n = document.createElement("span"); n.className = "nm"; n.textContent = s.n;
-    var d = document.createElement("span"); d.className = "ds"; d.textContent = s.d;
-    b.appendChild(n); b.appendChild(d);
-    li.appendChild(a); li.appendChild(b);
-    list.appendChild(li);
-  });
+  <!-- 4 · VIENI O NO -->
+  <section class="pg" id="p-risposta" data-pg="risposta" aria-labelledby="rT">
+    <div class="colonna">
+      <h1 class="grande" id="rT" data-t="risposta.titolo"></h1>
+      <div class="scelta">
+        <button type="button" class="btn verde grande-btn" id="vSi" aria-pressed="false" data-t="risposta.si"></button>
+        <button type="button" class="btn chiaro grande-btn" id="vNo" aria-pressed="false" data-t="risposta.no"></button>
+      </div>
 
-  /* ---- rsvp ---- */
-  function press(el, on){ el.setAttribute("aria-pressed", on ? "true" : "false"); }
+      <div class="sub" id="rallyQ" hidden>
+        <p class="dom" data-t="risposta.rallyQ"></p>
+        <div class="scelta">
+          <button type="button" class="btn verde" id="rSi" aria-pressed="false" data-t="risposta.rallySi"></button>
+          <button type="button" class="btn chiaro" id="rNo" aria-pressed="false" data-t="risposta.rallyNo"></button>
+        </div>
+      </div>
 
-  function refresh(){
-    press($("yes"), state.going === true);
-    press($("no"),  state.going === false);
-    press($("rYes"), state.rally === true);
-    press($("rNo"),  state.rally === false);
-    var going = state.going === true;
-    $("rallyQ").hidden = !(going && me && me.rally);
-    $("santaFld").hidden = !going;
-    $("noteFld").hidden = state.going === null;
-    $("sendbox").hidden = state.going === null;
-    if(state.going !== null) $("preview").textContent = message();
-    store();
-  }
+      <label class="campo" id="notaFld" hidden>
+        <span class="dom" data-t="risposta.notaTit"></span>
+        <span class="hint" data-t="risposta.notaHint"></span>
+        <textarea id="nota" rows="3" maxlength="400" data-ph="risposta.notaPh"></textarea>
+      </label>
 
-  function message(){
-    var L = [];
-    L.push(me ? me.n : "");
-    if(state.going === false){
-      L.push("Purtroppo il 19 non ci sono.");
-    } else {
-      if(me && me.rally){
-        L.push(state.rally === true ? "Ci sono: rally + cena."
-             : state.rally === false ? "Ci sono alla cena, il rally lo salto."
-             : "Ci sono alla cena. Per il rally ti dico.");
-      } else {
-        L.push("Ci sono alla cena.");
-      }
-      if(state.santa.trim()) L.push("Secret Santa: " + state.santa.trim());
-    }
-    if(state.note.trim()) L.push("Nota: " + state.note.trim());
-    return L.join("\n");
-  }
+      <div class="invio carta" id="invio" hidden>
+        <p class="dom" data-t="risposta.msgTit"></p>
+        <div class="anteprima" id="anteprima"></div>
+        <div class="btnrow" id="invioBtns">
+          <a class="btn verde" id="wa" target="_blank" rel="noopener" hidden data-t="risposta.msgWa"></a>
+          <button type="button" class="btn chiaro" id="copia" data-t="risposta.msgCopia"></button>
+        </div>
+        <p class="toast" id="toast" aria-live="polite"></p>
+        <p class="hint" data-t="risposta.msgNota"></p>
+      </div>
 
-  $("yes").addEventListener("click", function(){ state.going = true; refresh(); });
-  $("no").addEventListener("click", function(){ state.going = false; state.rally = null; refresh(); });
-  $("rYes").addEventListener("click", function(){ state.rally = true; refresh(); });
-  $("rNo").addEventListener("click", function(){ state.rally = false; refresh(); });
-  $("santa").addEventListener("input", function(){ state.santa = this.value; refresh(); });
-  $("note").addEventListener("input", function(){ state.note = this.value; refresh(); });
+      <p class="battuta" id="peccato" hidden data-t="risposta.peccato"></p>
+      <div class="fondo"><button type="button" class="btn grande-btn" id="vaiBabbo" hidden data-t="risposta.avanti"></button></div>
+    </div>
+  </section>
 
-  $("copy").addEventListener("click", function(){
-    var txt = message();
-    var done = function(){ $("toast").textContent = "Copiato. Ora incollalo nella chat con Riccardo."; };
-    var fallback = function(){
-      var r = document.createRange(); r.selectNodeContents($("preview"));
-      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
-      $("toast").textContent = "Selezionato: copialo a mano (il browser non me l'ha lasciato fare).";
-    };
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(txt).then(done, fallback);
-    } else { fallback(); }
-  });
+  <!-- 5 · BABBO NATALE SEGRETO -->
+  <section class="pg" id="p-babbo" data-pg="babbo" aria-labelledby="bT">
+    <div class="colonna">
+      <p class="adesivo ros">obbligatorio</p>
+      <h1 class="grande" id="bT" data-t="babbo.titolo"></h1>
+      <p class="intro" data-t="babbo.testo"></p>
+      <p class="tetto" data-t="babbo.tetto"></p>
+      <ol class="regole" id="regole"></ol>
 
-  /* ---- si apre subito su Ludovico ---- */
-  open(GUESTS[0]);
-  var saved = restore();
-  if(saved && saved.state && saved.name === GUESTS[0].n){
-    state = saved.state;
-    $("santa").value = state.santa || "";
-    $("note").value  = state.note  || "";
-  }
-  refresh();
+      <div class="ruota-box" id="ruotaBox">
+        <div class="ptr" id="ptr" aria-hidden="true"></div>
+        <svg id="ruota" viewBox="0 0 320 320" role="img" aria-label="Ruota con i nomi degli invitati"></svg>
+      </div>
+      <div class="btnrow centra"><button type="button" class="btn oro grande-btn" id="estrai" data-t="babbo.estrai"></button></div>
 
-})();
+      <div class="risultato carta" id="risultato" hidden aria-live="polite">
+        <p class="et" data-t="babbo.risultato"></p>
+        <p class="nome-gigante" id="bersaglio"></p>
+        <p class="hint" data-t="babbo.sotto"></p>
+        <button type="button" class="link" id="rigira" data-t="babbo.rigira"></button>
+      </div>
+      <p class="battuta" id="chiusuraBabbo" hidden data-t="babbo.chiusura"></p>
+      <div class="fondo"><button type="button" class="btn grande-btn" id="vaiQuota" hidden data-t="babbo.avanti"></button></div>
+    </div>
+  </section>
 
-/* ---- bottone WhatsApp: si accende solo se TEL e' impostato ---- */
-(function(){
-  var TEL = "__TEL__";                /* numero con prefisso, senza + e senza spazi. es: 393331234567 */
-  if(!TEL || TEL.indexOf("_") === 0) return;
-  var box = document.getElementById("sendbox");
-  if(!box) return;
-  var row = box.querySelector(".btnrow");
-  var a = document.createElement("a");
-  a.className = "btn"; a.target = "_blank"; a.rel = "noopener";
-  a.textContent = "Mandalo su WhatsApp";
-  row.insertBefore(a, row.firstChild);
-  var copy = document.getElementById("copy");
-  copy.classList.add("ghost");
-  var pv = document.getElementById("preview");
-  var sync = function(){ a.href = "https://wa.me/" + TEL + "?text=" + encodeURIComponent(pv.textContent || ""); };
-  new MutationObserver(sync).observe(pv, {childList:true, characterData:true, subtree:true});
-  sync();
-})();
-</script>
+  <!-- 6 · LA QUOTA -->
+  <section class="pg" id="p-quota" data-pg="quota" aria-labelledby="qT">
+    <div class="centro">
+      <h1 class="grande" id="qT" data-t="quota.titolo"></h1>
+      <p class="intro" data-t="quota.testo"></p>
+      <div class="btnrow centra">
+        <a class="btn oro grande-btn" id="paga" target="_blank" rel="noopener" hidden></a>
+        <p class="battuta" id="pagaDopo" hidden data-t="quota.inArrivo"></p>
+      </div>
+      <p class="hint" data-t="quota.oppure"></p>
+      <p class="fine" data-t="quota.fine"></p>
+      <button type="button" class="link" id="riapri" data-t="quota.riapri"></button>
+    </div>
+  </section>
 
+</main>
+<footer id="piede"></footer>
+
+<noscript><p style="padding:24px;font:16px sans-serif">Per aprire l'invito serve JavaScript. Scrivi a Riccardo se non funziona.</p></noscript>
+<script src="config.js?v=3"></script>
+<script src="assets/codec.js?v=3"></script>
+<script src="sorteggio.js?v=3"></script>
+<script src="app.js?v=3"></script>
 </body>
 </html>
