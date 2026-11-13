@@ -74,7 +74,7 @@ window.CONFIG = {
   /* ---------- COMPORTAMENTO ---------- */
   FUGHE_MAX: 2,                      /* quante volte il "Sì" scappa prima di farsi prendere */
   ALTEZZA_ESAGERATA: 2.6,            /* quanto sono gonfiati i dislivelli sulla mappa 3D */
-  DURATA_GUIDA_SEC: 34,              /* quanto dura il giro della macchinina sulla mappa */
+  DURATA_GUIDA_SEC: 40,              /* quanto dura il giro della macchinina sulla mappa */
   LINK_MAPS: "https://www.google.com/maps/dir/45.397,9.149/Casteggio/Rocca+Susella/Fortunago/Borgoratto+Mormorolo/Romagnese/Passo+del+Penice/Varzi/Garlasco/",
 
   /* ---------- LE TAPPE DEL RALLY ----------

@@ -192,7 +192,7 @@
   if (!ridotto) window.addEventListener("scroll", function () { if (!scrollInvito) { scrollInvito = true; requestAnimationFrame(ruotaHero); } }, { passive: true });
 
   /* ---------- 3 · l'invito ---------- */
-  var mappa = null, mappaCarica = false, stopSel = 0;
+  var mappa = null, mappaCarica = false, stopSel = 0, autoGiro = false, autoFatto = false;
   function preparaInvito() {
     testi();
     var g = ospite(); $("#whoName").textContent = S.nome;
@@ -242,6 +242,7 @@
     var bv = $("#bVista"); if (bv) bv.addEventListener("click", function () { mappa.vista(i); $("#mScena").scrollIntoView({ block: "center", behavior: ridotto ? "auto" : "smooth" }); });
   }
   function scegliTappa(i, scorri) {
+    autoFatto = true;
     mostraDettaglio(i);
     if (mappa) mappa.vai(i);
     if (scorri) $("#mappaBox").scrollIntoView({ block: "start", behavior: ridotto ? "auto" : "smooth" });
@@ -251,8 +252,8 @@
     if (mappaCarica) return; mappaCarica = true;
     var box = $("#mappaBox");
     function parti() {
-      caricaScript("terreno.js?v=4", function () {
-        caricaScript("assets/mappa.js?v=4", function () {
+      caricaScript("terreno.js?v=5", function () {
+        caricaScript("assets/mappa.js?v=5", function () {
           var gl = $("#bGuida"), mu = $("#bMuovi");
           gl.textContent = TX.invito.mappaGuida; mu.textContent = TX.invito.mappaMuovi; mu.setAttribute("aria-pressed", "false");
           mappa = MappaNatale.init({
@@ -268,10 +269,17 @@
           gl.onclick = function () {
             var rb = $("#mappaBox").getBoundingClientRect();
             if (mappa.webgl && (rb.top < 0 || rb.bottom > innerHeight + 4)) $("#mappaBox").scrollIntoView({ block: "start", behavior: "auto" });
-            mappa.guida();
+            autoFatto = true; mappa.guida();
           };
-          mu.onclick = function () { mappa.muovi(mu.getAttribute("aria-pressed") !== "true"); };
-          $("#bAlto").onclick = function () { mappa.dallAlto(); };
+          mu.onclick = function () { autoFatto = true; mappa.muovi(mu.getAttribute("aria-pressed") !== "true"); };
+          $("#bAlto").onclick = function () { autoFatto = true; mappa.dallAlto(); };
+          /* quando scorrendo si arriva alla mappa, il giro parte da solo da Assago (una volta sola, se nessuno l'ha già toccata) */
+          if (mappa.webgl && window.IntersectionObserver && !ridotto) {
+            var ioAuto = new IntersectionObserver(function (en) {
+              if (en[0].isIntersecting && !autoFatto && !autoGiro) { autoGiro = true; ioAuto.disconnect(); setTimeout(function () { if (!autoFatto) mappa.guida(true); }, 350); }
+            }, { threshold: 0.6 });
+            ioAuto.observe($("#mScena"));
+          }
           mostraDettaglio(stopSel);
         }, fallbackMappa);
       }, fallbackMappa);
