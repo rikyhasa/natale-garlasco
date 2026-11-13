@@ -13,7 +13,8 @@ window.CONFIG = {
     padrone: "Ludo",
     cenaOra: "20:00",
     rallyOra: "08:30",
-    rallyKm: "circa 250 km",        /* il calcolo sul percorso dà ~223 km: scegli tu cosa mostrare */
+    rallyKm: "circa 215 km",        /* calcolato sul percorso vero: 213 km da Assago a Garlasco */
+    rallyLuogo: "casello di Assago",
     quota: 50,                       /* € a testa, cibo e bere */
     tetto: 25,                       /* € massimi per il regalo del Babbo Natale segreto */
     siamo: "una ventina"
@@ -74,14 +75,14 @@ window.CONFIG = {
   FUGHE_MAX: 2,                      /* quante volte il "Sì" scappa prima di farsi prendere */
   ALTEZZA_ESAGERATA: 2.6,            /* quanto sono gonfiati i dislivelli sulla mappa 3D */
   DURATA_GUIDA_SEC: 34,              /* quanto dura il giro della macchinina sulla mappa */
-  LINK_MAPS: "https://www.google.com/maps/dir/Buccinasco/Casteggio/Rocca+Susella/Fortunago/Borgoratto+Mormorolo/Romagnese/Passo+del+Penice/Varzi/Garlasco/",
+  LINK_MAPS: "https://www.google.com/maps/dir/45.397,9.149/Casteggio/Rocca+Susella/Fortunago/Borgoratto+Mormorolo/Romagnese/Passo+del+Penice/Varzi/Garlasco/",
 
   /* ---------- LE TAPPE DEL RALLY ----------
      lon/lat servono alla mappa. "strade belle" = dalla tappa 2 alla 8 (numeri umani). */
   STRADE_BELLE: [2, 8],
   STOPS: [
-    { h: "08:30", n: "Buccinasco",           lon: 9.1195, lat: 45.4210, tipo: "Partenza",
-      d: "Ritrovo, caffè al volo e si parte. Chi arriva dopo le 8:45 insegue, e se lo ricorda tutto il giorno." },
+    { h: "08:30", n: "Casello di Assago",    lon: 9.149,  lat: 45.397, tipo: "Partenza",
+      d: "Ritrovo al casello di Assago: tutti passate da lì per scendere, quindi è il punto più comodo. Caffè al volo e si parte. Chi arriva dopo le 8:45 insegue, e se lo ricorda tutto il giorno." },
     { h: "09:45", n: "Casteggio",            lon: 9.1286, lat: 45.0160, tipo: "Fine pianura",
       d: "Qui finisce la pianura e iniziano le cose belle. Fin qui è solo trasferimento: si va in autostrada come persone civili." },
     { h: "10:30", n: "Rocca Susella",        lon: 9.1005, lat: 44.9060, tipo: "Prima salita",
@@ -97,8 +98,9 @@ window.CONFIG = {
     { h: "13:15", n: "Varzi",                lon: 9.1979, lat: 44.8234, tipo: "Pranzo", vista: true,
       d: "Pranzo, un'ora e mezza abbondante. Varzi è famosa per il salame, e per ottimi motivi. La trattoria è ancora da prenotare: se avete richieste, parlate ora." },
     { h: "15:50", n: "Garlasco",             lon: 8.9251, lat: 45.1953, tipo: "Arrivo",
-      d: "Arrivo. Il tempo di scaricare, fare una doccia e tornare presentabili prima della cena. Il sole tramonta alle 16:38: arrivate con la luce." }
+      d: "Arrivo da {padrone}, con la luce (il sole tramonta alle 16:38). Chi vuole resta qui per la giornata e si mette a cucinare con noi. Chi preferisce torna a casa, si fa una doccia e ritorna per la cena." }
   ],
+
   /* foto della vista di Varzi (facoltativa): metti il file in /assets e scrivi il percorso, es. "assets/varzi.jpg" */
   VARZI_FOTO: "",
 
@@ -133,14 +135,15 @@ window.CONFIG = {
       etCena: "Serata · solo cena",
       ledeRally: "Si parte all'alba con le macchine e si finisce a tavola. Sì, hai letto bene: all'alba. Ti sveglieremo con affetto.",
       ledeCena: "Per te niente sveglia: arrivi alle 20, fresco come una rosa, e trovi gli altri già provati dal rally.",
-      fattiDove: "Dove", fattiCena: "Cena", fattiRally: "Rally", fattiSiamo: "Siamo", fattiQuota: "Quota",
+      fattiDove: "Dove", fattiCena: "Cena", fattiRally: "Rally", fattiSiamo: "Siamo",
       fattiDoveVal: "Garlasco (PV), da {padrone}",
       fattiCenaVal: "dalle {cenaOra}",
-      fattiRallyVal: "ritrovo {rallyOra}, Buccinasco",
-      fattiQuotaVal: "{quota} € a testa",
+      fattiRallyVal: "ritrovo {rallyOra}, casello di Assago",
       rallyEt: "la mattina",
       rallyTitolo: "Il rally",
-      rallyIntro: "Da Buccinasco giù nell'Oltrepò Pavese: vigneti, borghi sul cucuzzolo, tornanti e il Passo del Penice a 1.149 metri. {km} di strada, pranzo a Varzi e arrivo a Garlasco prima del buio. Non è una gara. È una gara, ma finta.",
+      rallyIntro: "Si parte dal casello di Assago, che tanto ci passate tutti per scendere, e si va giù nell'Oltrepò Pavese: vigneti, borghi sul cucuzzolo, tornanti e il Passo del Penice a 1.149 metri. {km} di strada, pranzo a Varzi e arrivo a Garlasco prima del buio. Non è una gara. È una gara, ma finta.",
+      rallyFineTit: "E a fine rally?",
+      rallyFine: "Si finisce a Garlasco da {padrone}. Chi vuole <b>resta per la giornata</b> e si mette a cucinare con noi. Chi preferisce <b>torna a casa</b>, si fa una doccia e ritorna per la cena alle {cenaOra}. Va bene tutto, basta dirlo qui sotto.",
       mappaMuovi: "Muovi la mappa",
       mappaFatto: "Fatto, fammi scorrere",
       mappaGuida: "Guida",
@@ -153,7 +156,7 @@ window.CONFIG = {
       noGl: "Il telefono non vuole saperne del 3D. Ti lascio il profilo e l'elenco delle tappe, che dicono le stesse cose.",
       tappeTitolo: "Le tappe",
       maps: "Aprilo in Google Maps",
-      regole: "Si va in colonna ma senza fare i fenomeni: chi resta indietro ritrova tutti alla tappa dopo. Gomme invernali o catene a bordo: a dicembre il Penice può avere neve, e se il fondo è bagnato cambiamo versante di salita.",
+      regole: "Si va in colonna ma senza fare i fenomeni: chi resta indietro ritrova tutti alla tappa dopo. A dicembre il Penice può avere neve, e se il fondo è bagnato cambiamo versante di salita.",
       cenaEt: "la sera",
       cenaTitolo: "La cena",
       cenaIntro: "Dalle {cenaOra} a casa di {padrone}: cucina enorme, più forni che persone ragionevoli. Cuciniamo noi, voi mangiate e fate i complimenti. Il menu lo stiamo chiudendo: un primo della tradizione, risotto <em>oppure</em> polenta con spezzatino o salsiccia, più piatti natalizi. I dolci arrivano a turno.",
@@ -173,7 +176,7 @@ window.CONFIG = {
       rallySi: "Anche al rally",
       rallyNo: "Solo alla cena",
       notaTit: "Altro da dire",
-      notaHint: "Arrivo tardi, dormo lì, non mangio questa cosa, porto qualcuno…",
+      notaHint: "Resto a cucinare dopo il rally, arrivo tardi, dormo lì, non mangio questa cosa…",
       notaPh: "Facoltativo",
       msgTit: "Il tuo messaggio per Riccardo",
       msgWa: "Mandalo su WhatsApp",
@@ -191,6 +194,8 @@ window.CONFIG = {
       avanti: "Avanti: il Babbo Natale segreto"
     },
     babbo: {
+      introSu: "Dato che vieni, ti tocca il…",
+      introVai: "Vediamo chi ti tocca",
       titolo: "Babbo Natale segreto",
       testo: "Dai, visto che ci vogliamo tutti bene, sarebbe maleducazione arrivare a Natale a mani vuote. Quindi: ognuno fa un regalo a una persona sola, e quella persona la decide la ruota.",
       tetto: "Tetto di spesa: <b>{tetto} €</b>. Oltre non si va. Sotto si può, anzi: <em>imagination is the limit</em>.",

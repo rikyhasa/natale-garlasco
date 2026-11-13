@@ -79,6 +79,7 @@
   function mostra(p) {
     if (PAGINE.indexOf(p) < 0) p = S.ok ? "invito" : (S.nome ? "sicuro" : "chi");
     var ok = permessa(p); if (ok !== true) { vai(ok); return; }
+    ferma();
     $$(".pg").forEach(function (el) { el.classList.toggle("on", el.getAttribute("data-pg") === p); });
     document.body.classList.toggle("neve-on", p !== "invito");
     window.scrollTo(0, 0);
@@ -110,20 +111,32 @@
     fughe = 0; accettato = false; si.classList.remove("fugge"); si.style.cssText = ""; slot.style.cssText = ""; presa.textContent = "";
     $("#sicuroBox").hidden = false; $("#rivela").hidden = true; testi();
   }
+  function vietati(livello) { // zone dove il Sì non deve mai atterrare: titolo, frase, No, risposta
+    var el = [$("#sTit"), no];
+    if (livello < 2) el.push($(".sotto", $("#p-sicuro")));
+    if (livello < 1) el.push(presa);
+    return el.map(function (e) {
+      var b = e.getBoundingClientRect(), extra = e === presa ? 44 : 0;
+      return { l: b.left - 14, r: b.right + 14, t: b.top - 12, b: b.bottom + 12 + extra };
+    });
+  }
   function scappa() {
     ultimaFuga = Date.now();
-    var r = si.getBoundingClientRect(), rn = no.getBoundingClientRect(), vw = innerWidth, vh = innerHeight;
+    var r = si.getBoundingClientRect(), vw = innerWidth, vh = innerHeight;
     if (!si.classList.contains("fugge")) {
       slot.style.width = r.width + "px"; slot.style.height = r.height + "px";
       si.style.width = r.width + "px"; si.style.left = r.left + "px"; si.style.top = r.top + "px";
       si.classList.add("fugge"); void si.offsetWidth;
     }
-    var x, y, ok = false, tent = 0;
-    while (!ok && tent++ < 40) {
-      x = 14 + Math.random() * Math.max(1, vw - r.width - 28); y = 90 + Math.random() * Math.max(1, vh - r.height - 120);
-      var lontano = Math.hypot(x - r.left, y - r.top) > Math.min(150, vw * .4);
-      var libero = x + r.width < rn.left - 12 || x > rn.right + 12 || y + r.height < rn.top - 12 || y > rn.bottom + 12;
-      ok = lontano && libero;
+    var x = r.left, y = r.top, trovato = false;
+    for (var liv = 0; liv < 3 && !trovato; liv++) {
+      var zone = vietati(liv), tent = 0;
+      while (!trovato && tent++ < 90) {
+        var cx = 12 + Math.random() * Math.max(1, vw - r.width - 24), cy = 12 + Math.random() * Math.max(1, vh - r.height - 24);
+        var lontano = Math.hypot(cx - r.left, cy - r.top) > Math.min(liv ? 90 : 150, vw * .4);
+        var libero = zone.every(function (z) { return cx + r.width < z.l || cx > z.r || cy + r.height < z.t || cy > z.b; });
+        if (lontano && libero) { x = cx; y = cy; trovato = true; }
+      }
     }
     si.style.left = x + "px"; si.style.top = y + "px"; si.style.transform = "rotate(" + ((Math.random() - .5) * 16).toFixed(1) + "deg)";
     presa.textContent = TX.sicuro.fughe[Math.min(fughe, TX.sicuro.fughe.length - 1)];
@@ -156,6 +169,28 @@
   }
   $("#apri").addEventListener("click", function () { vai("invito"); });
 
+  /* ---------- scorrimento: le cose entrano man mano che si scende ---------- */
+  var ioRv = null;
+  function scorrimento(radice, extra) {
+    if (ioRv) { ioRv.disconnect(); ioRv = null; }
+    var els = $$(radice + " > *" + (extra ? ", " + extra : "")).filter(function (e) { return !e.hidden && !e.classList.contains("topbar") && !e.classList.contains("hero") && !e.classList.contains("blk"); });
+    if (ridotto || !window.IntersectionObserver) { els.forEach(function (e) { e.classList.remove("rv", "in"); }); return; }
+    els.forEach(function (e, n) { e.classList.remove("in"); e.classList.add("rv"); e.style.setProperty("--d", (n % 4) * 70 + "ms"); });
+    ioRv = new IntersectionObserver(function (en) {
+      en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add("in"); ioRv.unobserve(x.target); } });
+    }, { threshold: 0.08, rootMargin: "0px 0px -6% 0px" });
+    els.forEach(function (e) { ioRv.observe(e); });
+  }
+  var heroEl = $("#p-invito .hero"), scrollInvito = false;
+  function ruotaHero() {
+    scrollInvito = false;
+    if (!heroEl || !$("#p-invito").classList.contains("on")) return;
+    var y = scrollY, h = heroEl.offsetHeight + 60, p = Math.max(0, Math.min(1, y / h));
+    heroEl.style.transform = p > 0 ? "translate3d(0," + (p * 34).toFixed(1) + "px,0) scale(" + (1 - p * .05).toFixed(3) + ")" : "";
+    heroEl.style.opacity = p > 0 ? (1 - p * .85).toFixed(2) : "";
+  }
+  if (!ridotto) window.addEventListener("scroll", function () { if (!scrollInvito) { scrollInvito = true; requestAnimationFrame(ruotaHero); } }, { passive: true });
+
   /* ---------- 3 · l'invito ---------- */
   var mappa = null, mappaCarica = false, stopSel = 0;
   function preparaInvito() {
@@ -166,13 +201,14 @@
     $("#lede").textContent = isRally() ? TX.invito.ledeRally : TX.invito.ledeCena;
     var f = [["fattiDove", "fattiDoveVal"], ["fattiCena", "fattiCenaVal"]];
     if (isRally()) f.push(["fattiRally", "fattiRallyVal"]);
-    f.push(["fattiSiamo", null], ["fattiQuota", "fattiQuotaVal"]);
+    f.push(["fattiSiamo", null]);
     $("#fatti").innerHTML = f.map(function (p) {
       var v = p[1] ? fmt(TX.invito[p[1]]) : esc(E.siamo);
       return '<div class="fatto"><dt>' + TX.invito[p[0]] + "</dt><dd>" + v + "</dd></div>";
     }).join("");
     $("#rally").hidden = !isRally();
     $("#rallyIntro").innerHTML = fmt(TX.invito.rallyIntro);
+    $("#rallyFine").innerHTML = fmt(TX.invito.rallyFine);
     $("#cenaIntro").innerHTML = fmt(TX.invito.cenaIntro);
     $("#scaletta").innerHTML = TX.invito.scaletta.map(function (r) {
       return '<li><span class="h">' + esc(r.h) + '</span><span><span class="t">' + esc(r.t) + '</span><span class="d">' + esc(r.d) + "</span></span></li>";
@@ -180,8 +216,10 @@
     $("#gmaps").href = C.LINK_MAPS;
     $("#esagero").textContent = testoPiano("invito.mappaEsagero");
     if (isRally()) { costruisciLista(); preparaMappa(); }
+    ruotaHero();
+    scorrimento("#p-invito .colonna", "#p-invito .hero > *, #p-invito .blk > *, #p-invito .fatto, #p-invito .scaletta li, #p-invito .tappe li");
   }
-  $("#nonSei").addEventListener("click", function () { S.nome = null; S.ok = false; S.vieni = null; S.rally = null; S.nota = ""; S.visto = false; salva(); vai("chi"); });
+  $("#nonSei").addEventListener("click", function () { S.nome = null; S.ok = false; S.vieni = null; S.rally = null; S.nota = ""; S.visto = false; introFatta = false; salva(); vai("chi"); });
   $("#vaiRisposta").addEventListener("click", function () { vai("risposta"); });
 
   function costruisciLista() {
@@ -197,7 +235,7 @@
   function mostraDettaglio(i) {
     stopSel = i; var s = C.STOPS[i];
     $$("#lista li").forEach(function (li, n) { li.classList.toggle("sel", n === i); });
-    var h = '<div class="t"><h3>' + esc(s.n) + '</h3><span class="h">' + esc(s.h) + "</span>" + (s.tipo ? '<span class="tipo">' + esc(s.tipo) + "</span>" : "") + "</div><p>" + esc(s.d) + "</p>";
+    var h = '<div class="t"><h3>' + esc(s.n) + '</h3><span class="h">' + esc(s.h) + "</span>" + (s.tipo ? '<span class="tipo">' + esc(s.tipo) + "</span>" : "") + "</div><p>" + fmt(esc(s.d)) + "</p>";
     if (s.vista && C.VARZI_FOTO) h += '<img src="' + esc(C.VARZI_FOTO) + '" alt="Varzi" loading="lazy">';
     if (s.vista && mappa && mappa.webgl) h += '<button type="button" class="btn picc oro" id="bVista">' + TX.invito.mappaVista + "</button>";
     $("#dett").innerHTML = h;
@@ -213,8 +251,8 @@
     if (mappaCarica) return; mappaCarica = true;
     var box = $("#mappaBox");
     function parti() {
-      caricaScript("terreno.js?v=3", function () {
-        caricaScript("assets/mappa.js?v=3", function () {
+      caricaScript("terreno.js?v=4", function () {
+        caricaScript("assets/mappa.js?v=4", function () {
           var gl = $("#bGuida"), mu = $("#bMuovi");
           gl.textContent = TX.invito.mappaGuida; mu.textContent = TX.invito.mappaMuovi; mu.setAttribute("aria-pressed", "false");
           mappa = MappaNatale.init({
@@ -227,7 +265,11 @@
             onGuida: function (on) { gl.textContent = on ? TX.invito.mappaFerma : TX.invito.mappaGuida; if (on) $("#mHint").classList.add("via"); },
             onFallback: function () { $("#mScena").classList.add("senza3d"); $("#noGl").hidden = false; $("#mHint").hidden = true; $("#mBar").hidden = true; $(".mappa-top").hidden = true; }
           });
-          gl.onclick = function () { mappa.guida(); if (mappa.webgl) $("#mappaBox").scrollIntoView({ block: "start", behavior: ridotto ? "auto" : "smooth" }); };
+          gl.onclick = function () {
+            var rb = $("#mappaBox").getBoundingClientRect();
+            if (mappa.webgl && (rb.top < 0 || rb.bottom > innerHeight + 4)) $("#mappaBox").scrollIntoView({ block: "start", behavior: "auto" });
+            mappa.guida();
+          };
           mu.onclick = function () { mappa.muovi(mu.getAttribute("aria-pressed") !== "true"); };
           $("#bAlto").onclick = function () { mappa.dallAlto(); };
           mostraDettaglio(stopSel);
@@ -252,7 +294,7 @@
     if (S.nota.trim()) L.push(R.msgNotaPre + S.nota.trim());
     return L.join("\n").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"');
   }
-  function preparaRisposta() { testi(); notaEl.value = S.nota || ""; aggiornaRisposta(); }
+  function preparaRisposta() { testi(); notaEl.value = S.nota || ""; aggiornaRisposta(); scorrimento("#p-risposta .colonna"); }
   function aggiornaRisposta() {
     press(vSi, S.vieni === true); press(vNo, S.vieni === false); press(rSi, S.rally === true); press(rNo, S.rally === false);
     $("#rallyQ").hidden = !(S.vieni === true && isRally());
@@ -329,8 +371,27 @@
     $("#estrai").hidden = true; S.visto = true; salva();
     if (festa) { var r = $("#risultato").getBoundingClientRect(); coriandoli(innerWidth / 2, Math.max(120, r.top), 90); vibra([30, 40, 60]); }
   }
+  var introFatta = false, timers = [];
+  function ferma() { timers.forEach(clearTimeout); timers = []; }
+  function dopo(ms, f) { timers.push(setTimeout(f, ms)); }
+  function introBabbo() {
+    var intro = $("#introBabbo"), corpo = $("#babboCorpo"), su = $("#ibSu"), tit = $("#ibTit"), vai2 = $("#ibVai");
+    corpo.hidden = true; intro.hidden = false; window.scrollTo(0, 0);
+    su.textContent = fmt(TX.babbo.introSu); su.classList.remove("on"); tit.classList.remove("timbra"); vai2.classList.remove("si");
+    function entra2() {
+      introFatta = true; ferma(); intro.hidden = true; corpo.hidden = false; window.scrollTo(0, 0);
+      scorrimento("#p-babbo .colonna");
+    }
+    vai2.onclick = entra2;
+    if (ridotto) { su.classList.add("on"); tit.classList.add("timbra"); vai2.classList.add("si"); return; }
+    dopo(250, function () { su.classList.add("on"); });
+    dopo(2100, function () { tit.classList.add("timbra"); vibra(40); coriandoli(innerWidth / 2, innerHeight * .5, 80); });
+    dopo(3100, function () { vai2.classList.add("si"); });
+  }
   function preparaBabbo() {
     testi();
+    var saltaIntro = S.visto || introFatta;
+    if (saltaIntro) { $("#introBabbo").hidden = true; $("#babboCorpo").hidden = false; scorrimento("#p-babbo .colonna"); } else introBabbo();
     $("#regole").innerHTML = TX.babbo.regole.map(function (r) { return "<li><span>" + fmt(r) + "</span></li>"; }).join("");
     costruisciRuota(); ruotaA(0);
     var b = mioBersaglio(), btn = $("#estrai");

@@ -18,7 +18,7 @@
 
 <link rel="icon" href="data:,">
 <link rel="preload" href="assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="stile.css?v=3">
+<link rel="stylesheet" href="stile.css?v=4">
 </head>
 <body class="neve-on">
 <canvas id="cfx" aria-hidden="true"></canvas>
@@ -109,6 +109,11 @@
 
         <div class="btnrow"><a class="btn chiaro" id="gmaps" target="_blank" rel="noopener" data-t="invito.maps"></a></div>
         <p class="nota-regole" data-t="invito.regole"></p>
+
+        <div class="fine-rally carta" data-rv>
+          <h3 data-t="invito.rallyFineTit"></h3>
+          <p id="rallyFine"></p>
+        </div>
       </section>
 
       <section class="blk" id="cena">
@@ -163,7 +168,12 @@
 
   <!-- 5 · BABBO NATALE SEGRETO -->
   <section class="pg" id="p-babbo" data-pg="babbo" aria-labelledby="bT">
-    <div class="colonna">
+    <div class="centro intro-babbo" id="introBabbo" hidden aria-live="polite">
+      <p class="ib-su" id="ibSu"></p>
+      <div class="timbro ib-titolo" id="ibTit"><h1 data-t="babbo.titolo"></h1><p>obbligatorio</p></div>
+      <button type="button" class="btn oro grande-btn" id="ibVai" data-t="babbo.introVai"></button>
+    </div>
+    <div class="colonna" id="babboCorpo">
       <p class="adesivo ros">obbligatorio</p>
       <h1 class="grande" id="bT" data-t="babbo.titolo"></h1>
       <p class="intro" data-t="babbo.testo"></p>
@@ -206,9 +216,9 @@
 <footer id="piede"></footer>
 
 <noscript><p style="padding:24px;font:16px sans-serif">Per aprire l'invito serve JavaScript. Scrivi a Riccardo se non funziona.</p></noscript>
-<script src="config.js?v=3"></script>
-<script src="assets/codec.js?v=3"></script>
-<script src="sorteggio.js?v=3"></script>
-<script src="app.js?v=3"></script>
+<script src="config.js?v=4"></script>
+<script src="assets/codec.js?v=4"></script>
+<script src="sorteggio.js?v=4"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>
