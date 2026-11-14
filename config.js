@@ -75,7 +75,7 @@ window.CONFIG = {
   FUGHE_MAX: 2,                      /* quante volte il "Sì" scappa prima di farsi prendere */
   ALTEZZA_ESAGERATA: 2.6,            /* quanto sono gonfiati i dislivelli sulla mappa 3D */
   DURATA_GUIDA_SEC: 40,              /* quanto dura il giro della macchinina sulla mappa */
-  LINK_MAPS: "https://www.google.com/maps/dir/45.397,9.149/Casteggio/Rocca+Susella/Fortunago/Borgoratto+Mormorolo/Romagnese/Passo+del+Penice/Varzi/Garlasco/",
+  LINK_MAPS: "https://www.google.com/maps/dir/45.397,9.149/45.0160,9.1286/44.9060,9.1005/44.9212,9.1839/44.9311,9.1935/44.8580,9.3720/44.8020,9.3300/44.8234,9.1979/45.1953,8.9251/",
 
   /* ---------- LE TAPPE DEL RALLY ----------
      lon/lat servono alla mappa. "strade belle" = dalla tappa 2 alla 8 (numeri umani). */
