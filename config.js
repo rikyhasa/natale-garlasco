@@ -43,25 +43,19 @@ window.CONFIG = {
     { n: "Guglie", rally: false },
     { n: "Tamara", rally: false },
     { n: "Defe", rally: true },
-    { n: "Matilde", rally: true },
     { n: "Lello", rally: true },
     { n: "Gialle", rally: true },
     { n: "Gialle +1", rally: true },
     { n: "Andre", rally: true },
-    { n: "Andre +1", rally: true },
     { n: "Tommy", rally: true },
-    { n: "Tommy +1", rally: true },
     { n: "Bruno", rally: false },
-    { n: "Bruno +1", rally: false }
+    { n: "Allegra", rally: true },
+    { n: "Bubi", rally: true }
   ],
 
   /* Coppie che NON devono pescarsi (usato solo quando si rifà il sorteggio) */
   COPPIE_VIETATE: [
-    ["Defe", "Matilde"],
     ["Gialle", "Gialle +1"],
-    ["Andre", "Andre +1"],
-    ["Tommy", "Tommy +1"],
-    ["Bruno", "Bruno +1"],
     ["Riccardo", "Laura"],
     ["Guglie", "Tamara"],
     ["Franco", "Benni"]
