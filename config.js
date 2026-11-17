@@ -89,7 +89,7 @@ window.CONFIG = {
     { h: "13:15", n: "Passo del Penice",     lon: 9.3300, lat: 44.8020, tipo: "1.149 m",
       d: "1.149 metri, il punto più alto della giornata. Si scende dall'altro versante, così non rifacciamo la stessa strada (siamo ambiziosi, non scemi)." },
     { h: "13:45", n: "Varzi",                lon: 9.1979, lat: 44.8234, tipo: "Pranzo", vista: true,
-      d: "Pranzo, un'ora e mezza abbondante. Varzi è famosa per il salame, e per ottimi motivi. La trattoria è ancora da prenotare: se avete richieste, parlate ora." },
+      d: "Pranzo, un'ora e mezza abbondante. Varzi è famosa per il salame, e per ottimi motivi. Il pranzo lo paga ognuno per sé al ristorante, non è compreso nella quota. La trattoria è ancora da prenotare: se avete richieste, parlate ora." },
     { h: "16:20", n: "Garlasco",             lon: 8.9251, lat: 45.1953, tipo: "Arrivo",
       d: "Arrivo da {padrone}, con la luce (il sole tramonta alle 16:38). Chi vuole resta qui per la giornata e si mette a cucinare con noi. Chi preferisce torna a casa, si fa una doccia e ritorna per la cena." }
   ],
