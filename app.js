@@ -18,7 +18,7 @@
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
   function vars() {
     return { nome: esc(S.nome || ""), tetto: E.tetto, quota: E.quota, padrone: E.padrone, km: E.rallyKm, ve: String(C.ALTEZZA_ESAGERATA).replace(".", ","),
-             cenaOra: E.cenaOra, rallyOra: E.rallyOra, metodo: esc(C.PAGAMENTO.metodo || "") };
+             cenaOra: E.cenaOra, rallyOra: E.rallyOra, indirizzo: esc(E.indirizzo || E.luogo), metodo: esc(C.PAGAMENTO.metodo || "") };
   }
   function fmt(s) { var v = vars(); return String(s).replace(/\{(\w+)\}/g, function (m, k) { return k in v ? v[k] : m; }); }
   function tx(path) { var o = TX; path.split(".").forEach(function (p) { o = o == null ? o : o[p]; }); return o; }
@@ -193,6 +193,33 @@
   }
   if (!ridotto) window.addEventListener("scroll", function () { if (!scrollInvito) { scrollInvito = true; requestAnimationFrame(ruotaHero); } }, { passive: true });
 
+
+  /* ---------- calendario + indirizzo ---------- */
+  function utcStr(hhmm, giorno) { // ora italiana (CET, dicembre) -> UTC
+    var d = E.dataISO, h = hhmm.split(":");
+    var t = new Date(Date.UTC(+d.slice(0, 4), +d.slice(4, 6) - 1, +d.slice(6, 8), +h[0] - 1, +h[1]));
+    return t.toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
+  }
+  function icsEsc(t) { return String(t).replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n"); }
+  function icsRiga(r) { var o = []; while (r.length > 73) { o.push(r.slice(0, 73)); r = " " + r.slice(73); } o.push(r); return o.join("\r\n"); }
+  function calendario() {
+    var rally = isRally(), inizio = utcStr(rally ? E.rallyOra : E.cenaOra), fine = utcStr("24:30");
+    var plain = function (k) { return fmt(TX.invito[k]).replace(/<[^>]+>/g, "").replace(/&amp;/g, "&"); };
+    var tit = plain("calTitolo") + (rally ? " · rally + cena" : " · cena");
+    var desc = plain(rally ? "calDescRally" : "calDescCena"), luogo = E.indirizzo || E.luogo;
+    var righe = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Natale a Garlasco//IT", "CALSCALE:GREGORIAN", "METHOD:PUBLISH", "BEGIN:VEVENT",
+      "UID:natale-garlasco-" + E.dataISO + (rally ? "-rally" : "-cena") + "@natale-garlasco", "DTSTAMP:" + new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z"),
+      "DTSTART:" + inizio, "DTEND:" + fine, "SUMMARY:" + icsEsc(tit), "LOCATION:" + icsEsc(luogo), "DESCRIPTION:" + icsEsc(desc),
+      "BEGIN:VALARM", "TRIGGER:-P1D", "ACTION:DISPLAY", "DESCRIPTION:" + icsEsc(plain("calTitolo")), "END:VALARM", "END:VEVENT", "END:VCALENDAR"].map(icsRiga);
+    var ics = righe.join("\r\n") + "\r\n";
+    var gcal = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent(tit) + "&dates=" + inizio + "/" + fine +
+      "&details=" + encodeURIComponent(desc) + "&location=" + encodeURIComponent(luogo);
+    var casa = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(luogo);
+    $$(".js-ics").forEach(function (a) { a.href = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics); a.setAttribute("download", "natale-a-garlasco.ics"); });
+    $$(".js-gcal").forEach(function (a) { a.href = gcal; });
+    $$(".js-casa").forEach(function (a) { a.href = casa; });
+  }
+
   /* ---------- 3 · l'invito ---------- */
   var mappa = null, mappaCarica = false, stopSel = 0, autoGiro = false, autoFatto = false;
   function preparaInvito() {
@@ -216,6 +243,7 @@
       return '<li><span class="h">' + esc(r.h) + '</span><span><span class="t">' + esc(r.t) + '</span><span class="d">' + esc(r.d) + "</span></span></li>";
     }).join("");
     $("#gmaps").href = C.LINK_MAPS;
+    calendario();
     $("#esagero").textContent = testoPiano("invito.mappaEsagero");
     if (isRally()) { costruisciLista(); preparaMappa(); }
     ruotaHero();
@@ -310,6 +338,7 @@
     $("#rallyQ").hidden = !(S.vieni === true && isRally());
     $("#notaFld").hidden = S.vieni === null; $("#invio").hidden = S.vieni === null;
     $("#peccato").hidden = S.vieni !== false;
+    $("#calRisp").hidden = S.vieni !== true;
     var pronto = S.vieni === true && (!isRally() || S.rally !== null);
     $("#vaiBabbo").hidden = !pronto;
     if (S.vieni !== null) $("#anteprima").textContent = messaggio();

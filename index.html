@@ -18,7 +18,7 @@
 
 <link rel="icon" href="data:,">
 <link rel="preload" href="assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="stile.css?v=19">
+<link rel="stylesheet" href="stile.css?v=20">
 </head>
 <body class="neve-on">
 <canvas id="cfx" aria-hidden="true"></canvas>
@@ -122,6 +122,11 @@
         <h2 data-t="invito.cenaTitolo"></h2>
         <p class="intro" id="cenaIntro"></p>
         <ol class="scaletta" id="scaletta"></ol>
+        <div class="btnrow cal-row">
+          <a class="btn chiaro js-casa" target="_blank" rel="noopener" data-t="invito.casa"></a>
+          <a class="btn verde js-ics" data-t="invito.calendario"></a>
+          <a class="btn chiaro js-gcal" target="_blank" rel="noopener" data-t="invito.calendarioGoogle"></a>
+        </div>
       </section>
 
       <div class="fondo"><button type="button" class="btn grande-btn" id="vaiRisposta" data-t="invito.avanti"></button></div>
@@ -161,6 +166,11 @@
         </div>
         <p class="toast" id="toast" aria-live="polite"></p>
         <p class="hint" data-t="risposta.msgNota"></p>
+      </div>
+
+      <div class="btnrow cal-row" id="calRisp" hidden>
+        <a class="btn verde js-ics" data-t="invito.calendario"></a>
+        <a class="btn chiaro js-gcal" target="_blank" rel="noopener" data-t="invito.calendarioGoogle"></a>
       </div>
 
       <p class="battuta" id="peccato" hidden data-t="risposta.peccato"></p>
@@ -218,9 +228,9 @@
 <footer id="piede"></footer>
 
 <noscript><p style="padding:24px;font:16px sans-serif">Per aprire l'invito serve JavaScript. Scrivi a Riccardo se non funziona.</p></noscript>
-<script src="config.js?v=19"></script>
-<script src="assets/codec.js?v=19"></script>
-<script src="sorteggio.js?v=19"></script>
-<script src="app.js?v=19"></script>
+<script src="config.js?v=20"></script>
+<script src="assets/codec.js?v=20"></script>
+<script src="sorteggio.js?v=20"></script>
+<script src="app.js?v=20"></script>
 </body>
 </html>

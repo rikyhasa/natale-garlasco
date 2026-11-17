@@ -10,6 +10,8 @@ window.CONFIG = {
     titolo: "Natale a Garlasco",
     data: "sabato 19 dicembre 2026",
     luogo: "Garlasco (PV)",
+    indirizzo: "Largo I Maggio 39, Garlasco (PV)",   /* casa di Ludo */
+    dataISO: "20261219",             /* per il calendario: AAAAMMGG */
     padrone: "Ludo",
     cenaOra: "20:00",
     rallyOra: "09:00",
@@ -129,7 +131,7 @@ window.CONFIG = {
       ledeRally: "Si parte la mattina presto con le macchine e si finisce a tavola. Sì, hai letto bene: presto. Ti sveglieremo con affetto.",
       ledeCena: "Per te niente sveglia: arrivi alle 20, fresco come una rosa, e trovi gli altri già provati dal rally.",
       fattiDove: "Dove", fattiCena: "Cena", fattiRally: "Rally", fattiSiamo: "Siamo",
-      fattiDoveVal: "Garlasco (PV), da {padrone}",
+      fattiDoveVal: "{indirizzo}, da {padrone}",
       fattiCenaVal: "dalle {cenaOra}",
       fattiRallyVal: "ritrovo {rallyOra}, casello di Assago",
       rallyEt: "la mattina",
@@ -152,13 +154,19 @@ window.CONFIG = {
       regole: "Si va in colonna ma senza fare i fenomeni: chi resta indietro ritrova tutti alla tappa dopo. A dicembre il Penice può avere neve, e se il fondo è bagnato cambiamo versante di salita.",
       cenaEt: "la sera",
       cenaTitolo: "La cena",
-      cenaIntro: "Dalle {cenaOra} a casa di {padrone}: cucina enorme, più forni che persone ragionevoli. Cuciniamo noi, voi mangiate e fate i complimenti. Il menu lo stiamo chiudendo: un primo della tradizione, risotto <em>oppure</em> polenta con spezzatino o salsiccia, più piatti natalizi. I dolci arrivano a turno.",
+      cenaIntro: "Dalle {cenaOra} a casa di {padrone}, in {indirizzo}: cucina enorme, più forni che persone ragionevoli. Cuciniamo noi, voi mangiate e fate i complimenti. Il menu lo stiamo chiudendo: un primo della tradizione, risotto <em>oppure</em> polenta con spezzatino o salsiccia, più piatti natalizi. I dolci arrivano a turno.",
       scaletta: [
         { h: "20:00", t: "Si arriva", d: "Bollicine e qualcosa da sgranocchiare mentre finisce di cuocere." },
         { h: "21:00", t: "A tavola", d: "Primo caldo, secondo, contorni. Nessuno si alza finché non lo dice il cuoco." },
         { h: "23:00", t: "Dolci e Babbo Natale segreto", d: "Il momento per cui vale la pena restare svegli." },
         { h: "dopo",  t: "Si vedrà", d: "Carte, musica. Chi vuole dormire lì lo dica prima (c'è lo spazio per scriverlo qui sotto)." }
       ],
+      casa: "Apri l'indirizzo in Maps",
+      calendario: "Aggiungi al calendario",
+      calendarioGoogle: "Google Calendar",
+      calTitolo: "Natale a Garlasco",
+      calDescRally: "Rally: ritrovo alle {rallyOra} al casello di Assago. Cena da {padrone} alle {cenaOra}.",
+      calDescCena: "Cena da {padrone} alle {cenaOra}.",
       avanti: "Va bene, e quindi?"
     },
     risposta: {

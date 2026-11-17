@@ -212,3 +212,4 @@ body:not(.neve-on) #neve{display:none}
   .rv{opacity:1;translate:none;scale:none}
 }
 @media (min-width:640px){.sotto{font-size:19px}.mappa-scena{height:560px}}
+.cal-row{margin-top:22px}
