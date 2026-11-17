@@ -24,7 +24,7 @@ window.CONFIG = {
   TEL: "393926369994",               /* numero con prefisso, senza + e senza spazi */
   PAGAMENTO: {
     metodo: "PayPal",                /* testo sul bottone */
-    url: ""                          /* es: https://paypal.me/tuonome/50   (vuoto = "ti mando il link io") */
+    url: "https://www.paypal.com/pool/9uszNRkbsa?sr=wccr"                          /* es: https://paypal.me/tuonome/50   (vuoto = "ti mando il link io") */
   },
 
   /* ---------- INVITATI ----------
