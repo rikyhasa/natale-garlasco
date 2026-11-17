@@ -49,7 +49,8 @@ window.CONFIG = {
     { n: "Tommy", rally: true },
     { n: "Bruno", rally: true },
     { n: "Allegra", rally: true },
-    { n: "Bubi", rally: true }
+    { n: "Bubi", rally: true },
+    { n: "Marione", rally: true }
   ],
 
   /* Coppie che NON devono pescarsi (usato solo quando si rifà il sorteggio) */
