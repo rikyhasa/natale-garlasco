@@ -90,8 +90,8 @@ window.CONFIG = {
       d: "Si entra in Val Tidone e si attacca il Penice dal lato stretto e tortuoso, nel bosco. Asfalto meno regolare: se è bagnato, prudenza." },
     { h: "13:15", n: "Passo del Penice",     lon: 9.3300, lat: 44.8020, tipo: "1.149 m",
       d: "1.149 metri, il punto più alto della giornata. Si scende dall'altro versante, così non rifacciamo la stessa strada (siamo ambiziosi, non scemi)." },
-    { h: "13:45", n: "Varzi",                lon: 9.1979, lat: 44.8234, tipo: "Pranzo", vista: true, sosta: 90, ristorante: "Officina dei Sapori",
-      d: "Pranzo all'Officina dei Sapori, nel centro storico (Vicolo allo Staffora 1), un'ora e mezza abbondante. Varzi è famosa per il salame, e per ottimi motivi. Il pranzo lo paga ognuno per sé al ristorante, non è compreso nella quota." },
+    { h: "13:45", n: "Varzi",                lon: 9.1979, lat: 44.8234, tipo: "Pranzo", vista: true, sosta: 90, ristorante: "La Ginestrella",
+      d: "Pranzo alla Ginestrella, sulle colline sopra Varzi (frazione Cella), con vista sulla valle. Un'ora e mezza abbondante. Varzi è famosa per il salame, e per ottimi motivi. Il pranzo lo paga ognuno per sé al ristorante, non è compreso nella quota." },
     { h: "16:20", n: "Garlasco",             lon: 8.9251, lat: 45.1953, tipo: "Arrivo",
       d: "Arrivo da {padrone}, con la luce (il sole tramonta alle 16:38). Chi vuole resta qui per la giornata e si mette a cucinare con noi. Chi preferisce torna a casa, si fa una doccia e ritorna per la cena." }
   ],
