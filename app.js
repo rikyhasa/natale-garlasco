@@ -281,7 +281,7 @@
     var box = $("#mappaBox");
     function parti() {
       caricaScript("terreno.js?v=6", function () {
-        caricaScript("assets/mappa.js?v=6", function () {
+        caricaScript("assets/mappa.js?v=8", function () {
           var gl = $("#bGuida"), mu = $("#bMuovi");
           gl.textContent = TX.invito.mappaGuida; mu.textContent = TX.invito.mappaMuovi; mu.setAttribute("aria-pressed", "false");
           mappa = MappaNatale.init({
