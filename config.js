@@ -154,7 +154,7 @@ window.CONFIG = {
       regole: "Si va in colonna ma senza fare i fenomeni: chi resta indietro ritrova tutti alla tappa dopo. A dicembre il Penice può avere neve, e se il fondo è bagnato cambiamo versante di salita.",
       cenaEt: "la sera",
       cenaTitolo: "La cena",
-      cenaIntro: "Dalle {cenaOra} a casa di {padrone}, in {indirizzo}: cucina enorme, più forni che persone ragionevoli. Cuciniamo noi, voi mangiate e fate i complimenti. Il menu lo stiamo chiudendo: un primo della tradizione, risotto <em>oppure</em> polenta con spezzatino o salsiccia, più piatti natalizi. I dolci arrivano a turno. Da bere, come di consuetudine, vino a manetta. E se vuoi portare la tua dolce metà (o un +1 qualunque) è il benvenuto: basta dirlo a Riccardo, che alle sedie ci pensa lui.",
+      cenaIntro: "Dalle {cenaOra} a casa di {padrone}, in {indirizzo}: cucina enorme, più forni che persone ragionevoli. Cuciniamo noi, voi mangiate e fate i complimenti. Il menu lo stiamo chiudendo: un primo della tradizione, risotto <em>oppure</em> polenta con spezzatino o salsiccia, più piatti natalizi. I dolci arrivano a turno. Da bere, come di consuetudine, vino a manetta. E se vuoi portare la tua dolce metà (o un +1) è il benvenuto: basta dirlo a Riccardo.",
       scaletta: [
         { h: "20:00", t: "Si arriva", d: "Bollicine e qualcosa da sgranocchiare mentre finisce di cuocere." },
         { h: "21:00", t: "A tavola", d: "Primo caldo, secondo, contorni. Nessuno si alza finché non lo dice il cuoco." },
