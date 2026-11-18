@@ -94,7 +94,7 @@
   /* ---------- 1 · tu chi sei ---------- */
   var nomiBox = $("#nomi");
   C.GUESTS.slice().sort(function (a, b) { return a.n.localeCompare(b.n, "it"); }).forEach(function (g) {
-    var b = document.createElement("button"); b.type = "button"; b.className = "chip"; b.textContent = g.n;
+    var b = document.createElement("button"); b.type = "button"; b.className = "chip"; b.textContent = g.etichetta || g.n;
     b.addEventListener("click", function () {
       $("#ritorno").hidden = true;
       if (S.nome !== g.n) { S.nome = g.n; S.ok = false; S.vieni = null; S.rally = null; S.nota = ""; S.visto = false; }
@@ -337,6 +337,7 @@
     press(vSi, S.vieni === true); press(vNo, S.vieni === false); press(rSi, S.rally === true); press(rNo, S.rally === false);
     $("#rallyQ").hidden = !(S.vieni === true && isRally());
     $("#invio").hidden = S.vieni === null;
+    $("#vaiBabbo").textContent = fmt(fuoriBabbo() ? TX.risposta.avantiSolo : TX.risposta.avanti);
     $("#peccato").hidden = S.vieni !== false;
     $("#calRisp").hidden = S.vieni !== true;
     $("#vaiBabbo").hidden = S.vieni !== true;
@@ -366,7 +367,7 @@
   var ruota = $("#ruota"), ptr = $("#ptr"), gradi = 0, giraInCorso = false, voci = [];
   function costruisciRuota() {
     var rit = (C.RITIRATI || []).map(norm);
-    voci = C.GUESTS.filter(function (g) { return g.n !== S.nome && rit.indexOf(norm(g.n)) < 0; }).map(function (g) { return g.n; });
+    voci = C.GUESTS.filter(function (g) { return g.babbo !== false && g.n !== S.nome && rit.indexOf(norm(g.n)) < 0; }).map(function (g) { return g.n; });
     var n = voci.length, seg = 360 / n, cxy = 160, r = 152, pal = [["#A22B3C", "#fff"], ["#1E5A43", "#fff"], ["#E2A93B", "#1D2A23"], ["#F6ECD8", "#1D2A23"]];
     function pt(a, rr) { var t = a * Math.PI / 180; return [(cxy + rr * Math.sin(t)).toFixed(2), (cxy - rr * Math.cos(t)).toFixed(2)]; }
     var h = '<g id="rg">';
@@ -420,8 +421,14 @@
     dopo(2100, function () { tit.classList.add("timbra"); vibra(40); coriandoli(innerWidth / 2, innerHeight * .5, 80); });
     dopo(3100, function () { vai2.classList.add("si"); });
   }
+  function fuoriBabbo() { var g = ospite(); return !!(g && g.babbo === false); }
   function preparaBabbo() {
     testi();
+    if (fuoriBabbo()) { // pagina tutta sua, al posto del Babbo Natale segreto
+      $("#introBabbo").hidden = true; $("#babboCorpo").hidden = true; $("#babboSolo").hidden = false; scorrimento("#babboSolo");
+      S.visto = true; salva(); return;
+    }
+    $("#babboSolo").hidden = true;
     var saltaIntro = S.visto || introFatta;
     if (saltaIntro) { $("#introBabbo").hidden = true; $("#babboCorpo").hidden = false; scorrimento("#p-babbo .colonna"); } else introBabbo();
     $("#regole").innerHTML = TX.babbo.regole.map(function (r) { return "<li><span>" + fmt(r) + "</span></li>"; }).join("");
@@ -440,6 +447,7 @@
     };
   }
   $("#vaiQuota").addEventListener("click", function () { vai("quota"); });
+  $("#vaiQuota2").addEventListener("click", function () { vai("quota"); });
 
   /* ---------- 6 · la quota ---------- */
   function preparaQuota() {

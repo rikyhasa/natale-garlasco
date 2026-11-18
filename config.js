@@ -52,7 +52,9 @@ window.CONFIG = {
     { n: "Bruno", rally: true },
     { n: "Allegra", rally: true },
     { n: "Bubi", rally: true },
-    { n: "Marione", rally: true }
+    { n: "Marione", rally: true },
+    /* babbo:false = fuori dal Babbo Natale segreto (ha una pagina sua al posto della ruota); etichetta = come compare nella lista dei nomi */
+    { n: "Mati", rally: true, babbo: false, etichetta: "Mati la migliore del mondo, scusa se non ti ho aggiunto" }
   ],
 
   /* Coppie che NON devono pescarsi (usato solo quando si rifà il sorteggio) */
@@ -185,7 +187,8 @@ window.CONFIG = {
       msgSiCena: "{nome}: ci sono alla cena.",
       msgNo: "{nome}: purtroppo il 19 non ci sono.",
       peccato: "Ci mancherai. Lo dico per educazione, ma anche un po' sul serio. Se cambi idea, torna qui.",
-      avanti: "Avanti: il Babbo Natale segreto"
+      avanti: "Avanti: il Babbo Natale segreto",
+      avantiSolo: "Avanti"
     },
     babbo: {
       introSu: "Dato che vieni, ti tocca il…",
@@ -204,7 +207,9 @@ window.CONFIG = {
       sotto: "Shh. Segreto. Il biglietto è già in tasca, non c'è bisogno di farlo vedere in giro.",
       rigira: "Rigira la ruota (tanto esce lo stesso)",
       chiusura: "E mi raccomando: se non porti il regalo, paghi da bere a tutti. Ti conviene organizzarti prima.",
-      avanti: "Ultima cosa"
+      avanti: "Ultima cosa",
+      soloTit: "Ci basta la tua presenza.",
+      soloAvanti: "Ultima cosa"
     },
     quota: {
       titolo: "Senti, tutto molto bello, ma…",
