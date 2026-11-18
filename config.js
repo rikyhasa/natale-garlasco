@@ -79,7 +79,7 @@ window.CONFIG = {
     { h: "09:15", n: "Casello di Assago",    lon: 9.149,  lat: 45.397, tipo: "Partenza",
       d: "Ritrovo al casello di Assago: tutti passate da lì per scendere, quindi è il punto più comodo. Caffè al volo e si parte alle 9:15. Chi arriva dopo insegue, e se lo ricorda tutto il giorno." },
     { h: "10:15", n: "Casteggio",            lon: 9.1286, lat: 45.0160, tipo: "Fine pianura",
-      d: "Qui finisce la pianura e iniziano le cose belle. Fin qui è solo trasferimento: si va in autostrada come persone civili." },
+      d: "Qui finisce la pianura e iniziano le cose belle. Fin qui è solo trasferimento: si va in autostrada come persone civili (cit.)." },
     { h: "11:00", n: "Rocca Susella",        lon: 9.1005, lat: 44.9060, tipo: "Prima salita",
       d: "La prima salita vera: tornanti stretti tra i vigneti, con il castello che compare e sparisce. Stomaco avvisato." },
     { h: "11:45", n: "Fortunago",            lon: 9.1839, lat: 44.9212, tipo: "Caffè e foto",
@@ -91,7 +91,7 @@ window.CONFIG = {
     { h: "13:15", n: "Passo del Penice",     lon: 9.3300, lat: 44.8020, tipo: "1.149 m",
       d: "1.149 metri, il punto più alto della giornata. Si scende dall'altro versante, così non rifacciamo la stessa strada (siamo ambiziosi, non scemi)." },
     { h: "13:45", n: "Varzi",                lon: 9.1979, lat: 44.8234, tipo: "Pranzo", vista: true, sosta: 90, ristorante: "La Ginestrella",
-      d: "Pranzo alla Ginestrella, sulle colline sopra Varzi (frazione Cella), con vista sulla valle. Un'ora e mezza abbondante. Varzi è famosa per il salame, e per ottimi motivi. Il pranzo lo paga ognuno per sé al ristorante, non è compreso nella quota." },
+      d: "Pranzo alla Ginestrella, sulle colline sopra Varzi (frazione Cella), con vista sulla valle. Un'ora e mezza abbondante. Varzi è famosa per il salame, e per ottimi motivi." },
     { h: "16:20", n: "Garlasco",             lon: 8.9251, lat: 45.1953, tipo: "Arrivo",
       d: "Arrivo da {padrone}, con la luce (il sole tramonta alle 16:38). Chi vuole resta qui per la giornata e si mette a cucinare con noi. Chi preferisce torna a casa, si fa una doccia e ritorna per la cena." }
   ],
@@ -154,7 +154,7 @@ window.CONFIG = {
       regole: "Si va in colonna ma senza fare i fenomeni: chi resta indietro ritrova tutti alla tappa dopo. A dicembre il Penice può avere neve, e se il fondo è bagnato cambiamo versante di salita.",
       cenaEt: "la sera",
       cenaTitolo: "La cena",
-      cenaIntro: "Dalle {cenaOra} a casa di {padrone}, in {indirizzo}: cucina enorme, più forni che persone ragionevoli. Cuciniamo noi, voi mangiate e fate i complimenti. Il menu lo stiamo chiudendo: un primo della tradizione, risotto <em>oppure</em> polenta con spezzatino o salsiccia, più piatti natalizi. I dolci arrivano a turno.",
+      cenaIntro: "Dalle {cenaOra} a casa di {padrone}, in {indirizzo}: cucina enorme, più forni che persone ragionevoli. Cuciniamo noi, voi mangiate e fate i complimenti. Il menu lo stiamo chiudendo: un primo della tradizione, risotto <em>oppure</em> polenta con spezzatino o salsiccia, più piatti natalizi. I dolci arrivano a turno. Da bere, come di consuetudine, vino a manetta.",
       scaletta: [
         { h: "20:00", t: "Si arriva", d: "Bollicine e qualcosa da sgranocchiare mentre finisce di cuocere." },
         { h: "21:00", t: "A tavola", d: "Primo caldo, secondo, contorni. Nessuno si alza finché non lo dice il cuoco." },

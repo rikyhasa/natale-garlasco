@@ -220,7 +220,7 @@
   }
 
   /* ---------- 3 · l'invito ---------- */
-  var mappa = null, mappaCarica = false, stopSel = 0, autoGiro = false, autoFatto = false;
+  var mappa = null, mappaCarica = false, stopSel = 0, autoGiro = false, autoFatto = false, autoFinito = false;
   function preparaInvito() {
     testi();
     var g = ospite(); $("#whoName").textContent = S.nome; calendario();
@@ -267,7 +267,7 @@
     if (s.vista && C.VARZI_FOTO) h += '<img src="' + esc(C.VARZI_FOTO) + '" alt="Varzi" loading="lazy">';
     if (s.vista && mappa && mappa.webgl) h += '<button type="button" class="btn picc oro" id="bVista">' + TX.invito.mappaVista + "</button>";
     $("#dett").innerHTML = h;
-    var bv = $("#bVista"); if (bv) bv.addEventListener("click", function () { mappa.vista(i); $("#mScena").scrollIntoView({ block: "center", behavior: ridotto ? "auto" : "smooth" }); });
+    var bv = $("#bVista"); if (bv) bv.addEventListener("click", function () { autoFatto = true; mappa.vista(i); $("#mScena").scrollIntoView({ block: "center", behavior: ridotto ? "auto" : "smooth" }); });
   }
   function scegliTappa(i, scorri) {
     autoFatto = true;
@@ -281,7 +281,7 @@
     var box = $("#mappaBox");
     function parti() {
       caricaScript("terreno.js?v=6", function () {
-        caricaScript("assets/mappa.js?v=8", function () {
+        caricaScript("assets/mappa.js?v=9", function () {
           var gl = $("#bGuida"), mu = $("#bMuovi");
           gl.textContent = TX.invito.mappaGuida; mu.textContent = TX.invito.mappaMuovi; mu.setAttribute("aria-pressed", "false");
           mappa = MappaNatale.init({
@@ -292,7 +292,7 @@
             onClock: function (t) { $("#orologio").textContent = t; },
             onSosta: function (on, st) { var e = $("#sosta"); if (on) e.textContent = TX.invito.mappaSosta.replace("{r}", st.ristorante || st.n); e.classList.toggle("on", !!on); },
             onMode: function (on) { mu.textContent = on ? TX.invito.mappaFatto : TX.invito.mappaMuovi; mu.setAttribute("aria-pressed", on ? "true" : "false"); if (on) $("#mHint").classList.add("via"); },
-            onGuida: function (on) { gl.textContent = on ? TX.invito.mappaFerma : TX.invito.mappaGuida; if (on) $("#mHint").classList.add("via"); },
+            onGuida: function (on, fine) { gl.textContent = on ? TX.invito.mappaFerma : TX.invito.mappaGuida; if (on) $("#mHint").classList.add("via"); if (!on && fine) autoFinito = true; },
             onFallback: function () { $("#mScena").classList.add("senza3d"); $("#noGl").hidden = false; $("#mHint").hidden = true; $("#mBar").hidden = true; $(".mappa-top").hidden = true; }
           });
           gl.onclick = function () {
@@ -302,10 +302,11 @@
           };
           mu.onclick = function () { autoFatto = true; mappa.muovi(mu.getAttribute("aria-pressed") !== "true"); };
           $("#bAlto").onclick = function () { autoFatto = true; mappa.dallAlto(); };
-          /* quando scorrendo si arriva alla mappa, il giro parte da solo da Assago (una volta sola, se nessuno l'ha già toccata) */
+          /* quando scorrendo si arriva alla mappa, il giro parte da solo da Assago; se esci dalla mappa prima della fine
+             (si ferma da sola) e ci torni senza averla toccata, riparte da capo, non da metà */
           if (mappa.webgl && window.IntersectionObserver && !ridotto) {
             var ioAuto = new IntersectionObserver(function (en) {
-              if (en[0].isIntersecting && !autoFatto && !autoGiro) { autoGiro = true; ioAuto.disconnect(); setTimeout(function () { if (!autoFatto) mappa.guida(true); }, 350); }
+              if (en[0].isIntersecting && !autoFatto && !autoFinito) setTimeout(function () { if (!autoFatto && !autoFinito) { autoGiro = true; mappa.daCapo(); } }, 350);
             }, { threshold: 0.6 });
             ioAuto.observe($("#mScena"));
           }
