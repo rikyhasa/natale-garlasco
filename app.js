@@ -243,7 +243,6 @@
       return '<li><span class="h">' + esc(r.h) + '</span><span><span class="t">' + esc(r.t) + '</span><span class="d">' + esc(r.d) + "</span></span></li>";
     }).join("");
     $("#gmaps").href = C.LINK_MAPS;
-    $("#esagero").textContent = testoPiano("invito.mappaEsagero");
     if (isRally()) { costruisciLista(); preparaMappa(); }
     ruotaHero();
     scorrimento("#p-invito .colonna", "#p-invito .hero > *, #p-invito .blk > *, #p-invito .fatto, #p-invito .scaletta li, #p-invito .tappe li");
