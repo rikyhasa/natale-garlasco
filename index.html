@@ -18,7 +18,7 @@
 
 <link rel="icon" href="data:,">
 <link rel="preload" href="assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="stile.css?v=20">
+<link rel="stylesheet" href="stile.css?v=21">
 </head>
 <body class="neve-on">
 <canvas id="cfx" aria-hidden="true"></canvas>
@@ -92,6 +92,7 @@
               <span class="esagero" id="esagero"></span>
             </div>
             <p class="mappa-hint" id="mHint" data-t="invito.mappaHint"></p>
+            <p class="mappa-sosta" id="sosta" aria-live="polite"></p>
             <p class="mappa-nogl" id="noGl" hidden data-t="invito.noGl"></p>
           </div>
           <div class="mappa-bar" id="mBar">
@@ -122,11 +123,6 @@
         <h2 data-t="invito.cenaTitolo"></h2>
         <p class="intro" id="cenaIntro"></p>
         <ol class="scaletta" id="scaletta"></ol>
-        <div class="btnrow cal-row">
-          <a class="btn chiaro js-casa" target="_blank" rel="noopener" data-t="invito.casa"></a>
-          <a class="btn verde js-ics" data-t="invito.calendario"></a>
-          <a class="btn chiaro js-gcal" target="_blank" rel="noopener" data-t="invito.calendarioGoogle"></a>
-        </div>
       </section>
 
       <div class="fondo"><button type="button" class="btn grande-btn" id="vaiRisposta" data-t="invito.avanti"></button></div>
@@ -151,27 +147,19 @@
         </div>
       </div>
 
-      <label class="campo" id="notaFld" hidden>
-        <span class="dom" data-t="risposta.notaTit"></span>
-        <span class="hint" data-t="risposta.notaHint"></span>
-        <textarea id="nota" rows="3" maxlength="400" data-ph="risposta.notaPh"></textarea>
-      </label>
-
       <div class="invio carta" id="invio" hidden>
         <p class="dom" data-t="risposta.msgTit"></p>
         <div class="anteprima" id="anteprima"></div>
         <div class="btnrow" id="invioBtns">
           <a class="btn verde" id="wa" target="_blank" rel="noopener" hidden data-t="risposta.msgWa"></a>
-          <button type="button" class="btn chiaro" id="copia" data-t="risposta.msgCopia"></button>
         </div>
         <p class="toast" id="toast" aria-live="polite"></p>
         <p class="hint" data-t="risposta.msgNota"></p>
       </div>
 
-      <div class="btnrow cal-row" id="calRisp" hidden>
-        <a class="btn verde js-ics" data-t="invito.calendario"></a>
-        <a class="btn chiaro js-gcal" target="_blank" rel="noopener" data-t="invito.calendarioGoogle"></a>
-      </div>
+      <p class="cal-mini" id="calRisp" hidden>
+        <a class="js-ics" data-t="invito.calendario"></a> · <a class="js-gcal" target="_blank" rel="noopener" data-t="invito.calendarioGoogle"></a>
+      </p>
 
       <p class="battuta" id="peccato" hidden data-t="risposta.peccato"></p>
       <div class="fondo"><button type="button" class="btn grande-btn" id="vaiBabbo" hidden data-t="risposta.avanti"></button></div>
@@ -228,9 +216,9 @@
 <footer id="piede"></footer>
 
 <noscript><p style="padding:24px;font:16px sans-serif">Per aprire l'invito serve JavaScript. Scrivi a Riccardo se non funziona.</p></noscript>
-<script src="config.js?v=20"></script>
-<script src="assets/codec.js?v=20"></script>
-<script src="sorteggio.js?v=20"></script>
-<script src="app.js?v=20"></script>
+<script src="config.js?v=21"></script>
+<script src="assets/codec.js?v=21"></script>
+<script src="sorteggio.js?v=21"></script>
+<script src="app.js?v=21"></script>
 </body>
 </html>

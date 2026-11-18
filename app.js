@@ -214,17 +214,16 @@
     var ics = righe.join("\r\n") + "\r\n";
     var gcal = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent(tit) + "&dates=" + inizio + "/" + fine +
       "&details=" + encodeURIComponent(desc) + "&location=" + encodeURIComponent(luogo);
-    var casa = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(luogo);
+    var casa = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(luogo); window.__casaMaps = casa;
     $$(".js-ics").forEach(function (a) { a.href = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics); a.setAttribute("download", "natale-a-garlasco.ics"); });
     $$(".js-gcal").forEach(function (a) { a.href = gcal; });
-    $$(".js-casa").forEach(function (a) { a.href = casa; });
   }
 
   /* ---------- 3 · l'invito ---------- */
   var mappa = null, mappaCarica = false, stopSel = 0, autoGiro = false, autoFatto = false;
   function preparaInvito() {
     testi();
-    var g = ospite(); $("#whoName").textContent = S.nome;
+    var g = ospite(); $("#whoName").textContent = S.nome; calendario();
     $("#tier").textContent = isRally() ? TX.invito.etRally : TX.invito.etCena;
     $("#heroT").textContent = E.titolo; $("#heroD").textContent = E.data;
     $("#lede").textContent = isRally() ? TX.invito.ledeRally : TX.invito.ledeCena;
@@ -233,6 +232,7 @@
     f.push(["fattiSiamo", null]);
     $("#fatti").innerHTML = f.map(function (p) {
       var v = p[1] ? fmt(TX.invito[p[1]]) : esc(E.siamo);
+      if (p[0] === "fattiDove") v = '<a class="indirizzo" target="_blank" rel="noopener" href="' + window.__casaMaps + '">' + v + "</a>";
       return '<div class="fatto"><dt>' + TX.invito[p[0]] + "</dt><dd>" + v + "</dd></div>";
     }).join("");
     $("#rally").hidden = !isRally();
@@ -243,7 +243,6 @@
       return '<li><span class="h">' + esc(r.h) + '</span><span><span class="t">' + esc(r.t) + '</span><span class="d">' + esc(r.d) + "</span></span></li>";
     }).join("");
     $("#gmaps").href = C.LINK_MAPS;
-    calendario();
     $("#esagero").textContent = testoPiano("invito.mappaEsagero");
     if (isRally()) { costruisciLista(); preparaMappa(); }
     ruotaHero();
@@ -292,6 +291,7 @@
             canvasBox: $("#mScena"), pinsEl: $("#pins"), profiloCanvas: $("#profilo"),
             onSel: function (i) { mostraDettaglio(i); },
             onClock: function (t) { $("#orologio").textContent = t; },
+            onSosta: function (on, st) { var e = $("#sosta"); if (on) e.textContent = TX.invito.mappaSosta.replace("{r}", st.ristorante || st.n); e.classList.toggle("on", !!on); },
             onMode: function (on) { mu.textContent = on ? TX.invito.mappaFatto : TX.invito.mappaMuovi; mu.setAttribute("aria-pressed", on ? "true" : "false"); if (on) $("#mHint").classList.add("via"); },
             onGuida: function (on) { gl.textContent = on ? TX.invito.mappaFerma : TX.invito.mappaGuida; if (on) $("#mHint").classList.add("via"); },
             onFallback: function () { $("#mScena").classList.add("senza3d"); $("#noGl").hidden = false; $("#mHint").hidden = true; $("#mBar").hidden = true; $(".mappa-top").hidden = true; }
@@ -322,39 +322,32 @@
   }
 
   /* ---------- 4 · vieni o no ---------- */
-  var vSi = $("#vSi"), vNo = $("#vNo"), rSi = $("#rSi"), rNo = $("#rNo"), notaEl = $("#nota");
+  var vSi = $("#vSi"), vNo = $("#vNo"), rSi = $("#rSi"), rNo = $("#rNo");
   function press(el, on) { el.setAttribute("aria-pressed", on ? "true" : "false"); }
   function messaggio() {
     var L = [], R = TX.risposta;
     if (S.vieni === false) L.push(fmt(R.msgNo));
     else if (isRally()) L.push(fmt(S.rally === true ? R.msgSi : S.rally === false ? R.msgSiSoloCena : R.msgSiRallyDopo));
     else L.push(fmt(R.msgSiCena));
-    if (S.nota.trim()) L.push(R.msgNotaPre + S.nota.trim());
     return L.join("\n").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"');
   }
-  function preparaRisposta() { testi(); notaEl.value = S.nota || ""; aggiornaRisposta(); scorrimento("#p-risposta .colonna"); }
+  function preparaRisposta() { testi(); aggiornaRisposta(); scorrimento("#p-risposta .colonna"); }
   function aggiornaRisposta() {
+    if (S.vieni === true && isRally() && S.rally === null) S.rally = true; // "anche al rally" già scelto: lo cambi solo se non vieni
     press(vSi, S.vieni === true); press(vNo, S.vieni === false); press(rSi, S.rally === true); press(rNo, S.rally === false);
     $("#rallyQ").hidden = !(S.vieni === true && isRally());
-    $("#notaFld").hidden = S.vieni === null; $("#invio").hidden = S.vieni === null;
+    $("#invio").hidden = S.vieni === null;
     $("#peccato").hidden = S.vieni !== false;
     $("#calRisp").hidden = S.vieni !== true;
-    var pronto = S.vieni === true && (!isRally() || S.rally !== null);
-    $("#vaiBabbo").hidden = !pronto;
+    $("#vaiBabbo").hidden = S.vieni !== true;
     if (S.vieni !== null) $("#anteprima").textContent = messaggio();
-    var wa = $("#wa"); if (C.TEL && C.TEL.indexOf("_") !== 0) { wa.hidden = false; wa.href = "https://wa.me/" + C.TEL + "?text=" + encodeURIComponent(messaggio()); $("#copia").classList.remove("verde"); }
+    var wa = $("#wa"); if (C.TEL && C.TEL.indexOf("_") !== 0) { wa.hidden = false; wa.href = "https://wa.me/" + C.TEL + "?text=" + encodeURIComponent(messaggio()); }
     salva();
   }
   vSi.addEventListener("click", function () { S.vieni = true; aggiornaRisposta(); });
   vNo.addEventListener("click", function () { S.vieni = false; S.rally = null; aggiornaRisposta(); });
   rSi.addEventListener("click", function () { S.rally = true; aggiornaRisposta(); });
   rNo.addEventListener("click", function () { S.rally = false; aggiornaRisposta(); });
-  notaEl.addEventListener("input", function () { S.nota = this.value; aggiornaRisposta(); });
-  $("#copia").addEventListener("click", function () {
-    var t = messaggio(), ok = function () { $("#toast").textContent = TX.risposta.msgCopiato; };
-    var man = function () { var r = document.createRange(); r.selectNodeContents($("#anteprima")); var s = getSelection(); s.removeAllRanges(); s.addRange(r); $("#toast").textContent = TX.risposta.msgManuale; };
-    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(ok, man); else man();
-  });
   $("#vaiBabbo").addEventListener("click", function () { vai("babbo"); });
 
   /* ---------- 5 · babbo natale segreto (la ruota) ---------- */
